@@ -1,4 +1,4 @@
-# custom_R_container
+# custom_containeR
 
 Build reproducible [Apptainer](https://apptainer.org/) images for R from a
 plain list of packages. You write a package list; the pipeline produces a
@@ -11,7 +11,7 @@ needs no LLM step: all R images share one template.
 ## Quick start
 
 ```bash
-cd /rs1/shares/brc/admin/containers/custom_R_container
+cd /rs1/shares/brc/admin/containers/custom_containeR
 
 # 1. Edit the per-image settings at the top of config.sh
 #    (NAME, R_VERSION, BIOC_VERSION, SNAPSHOT_DATE)
