@@ -1,0 +1,9 @@
+# Build outputs (.def, .sif, provenance) live on disk, not in git
+builds/
+**/*.sif
+**/*.sif.partial
+
+# Slurm job logs
+logs/
+*.out
+*.err

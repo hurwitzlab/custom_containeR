@@ -1,0 +1,4 @@
+# Smoke test: one of each reference type.
+data.table
+bioc::limma
+rematch2=github::r-lib/rematch2@be7c3a05c060dce37277098967d42ffc695a6943
