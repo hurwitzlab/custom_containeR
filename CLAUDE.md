@@ -46,6 +46,11 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
 - **PPM binary URLs are per Ubuntu codename.** `%post` reads it from
   `/etc/os-release` rather than hardcoding (rocker 4.6.x is noble/24.04).
 - `%post` is unindented on purpose: heredoc terminators must be at column 0.
+- Blank `R_VERSION`/`BIOC_VERSION` are a generate-time convenience only:
+  `generate_def.sh` resolves them (Bioc = newest release by `SNAPSHOT_DATE`
+  from `release_dates` in bioconductor.org/config.yaml; R = newest rocker
+  patch tag for that Bioc's R minor) and the `.def` gets exact values plus
+  `inputs/resolved.txt`. Never let a blank or "latest" reach the `.def`.
 - Template placeholders are `@UPPER_CASE@`; the generator fails if any are
   left unfilled.
 

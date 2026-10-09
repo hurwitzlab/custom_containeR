@@ -24,11 +24,17 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 # Relative PACKAGES_FILE is resolved against the config's directory.
 [[ "$PACKAGES_FILE" = /* ]] || PACKAGES_FILE="$(dirname "$CONFIG")/$PACKAGES_FILE"
 
+# Blank or missing R_VERSION/BIOC_VERSION are resolved below; a missing
+# DEFAULT_PACKAGES means tidyverse (set it to "" for none).
+R_VERSION="${R_VERSION:-}"
+BIOC_VERSION="${BIOC_VERSION:-}"
+DEFAULT_PACKAGES="${DEFAULT_PACKAGES-tidyverse}"
+
 ### --- Validate scalar settings ---
 [[ "$NAME" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "NAME '$NAME' must be letters/digits/._- only"
 [[ "$VERSION_TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "VERSION_TAG '$VERSION_TAG' must be letters/digits/._- only"
-[[ "$R_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || die "R_VERSION must be X.Y.Z (got '$R_VERSION'); minor-only tags like 4.6 move"
-[[ "$BIOC_VERSION" =~ ^[0-9]+\.[0-9]+$ ]] || die "BIOC_VERSION must be X.Y (got '$BIOC_VERSION')"
+[[ -z "$R_VERSION" || "$R_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || die "R_VERSION must be X.Y.Z or blank (got '$R_VERSION'); minor-only tags like 4.6 move"
+[[ -z "$BIOC_VERSION" || "$BIOC_VERSION" =~ ^[0-9]+\.[0-9]+$ ]] || die "BIOC_VERSION must be X.Y or blank (got '$BIOC_VERSION')"
 [[ "$SNAPSHOT_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || die "SNAPSHOT_DATE must be YYYY-MM-DD (got '$SNAPSHOT_DATE')"
 date -d "$SNAPSHOT_DATE" >/dev/null 2>&1 || die "SNAPSHOT_DATE '$SNAPSHOT_DATE' is not a valid date"
 [[ "$SNAPSHOT_DATE" < "$(date +%F)" ]] || die "SNAPSHOT_DATE must be in the past; today's snapshot is still changing"
@@ -73,14 +79,38 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 done < "$PACKAGES_FILE"
 (( ${#PKGS[@]} > 0 )) || die "no packages given"
 
-### --- Check Bioconductor release matches R version ---
-r_minor="${R_VERSION%.*}"
+### --- Resolve blank R/Bioconductor versions, then check they match ---
+# The .def always gets exact values; blanks only save looking them up by hand.
+#   BIOC_VERSION: newest Bioconductor release out by SNAPSHOT_DATE (for
+#                 R_VERSION's minor, if set). Devel is never picked.
+#   R_VERSION:    newest rocker/r-ver X.Y.Z for that release's R minor.
 bioc_yaml=$(curl -fsSL https://bioconductor.org/config.yaml) \
     || die "could not fetch bioconductor.org/config.yaml"
-bioc_r=$(sed -n '/^r_ver_for_bioc_ver:/,/^[^ ]/p' <<<"$bioc_yaml" \
-    | grep -E "^ +\"$BIOC_VERSION\":" | sed -E 's/.*: *"([^"]+)".*/\1/' || true)
+r_for_bioc() {
+    sed -n '/^r_ver_for_bioc_ver:/,/^[^ ]/p' <<<"$bioc_yaml" \
+        | grep -E "^ +\"$1\":" | sed -E 's/.*: *"([^"]+)".*/\1/' || true
+}
+AUTO=""
+if [[ -z "$BIOC_VERSION" ]]; then
+    while read -r v d; do
+        [[ "$(date -d "$d" +%F)" > "$SNAPSHOT_DATE" ]] && continue
+        [[ -n "$R_VERSION" && "$(r_for_bioc "$v")" != "${R_VERSION%.*}" ]] && continue
+        BIOC_VERSION="$v"
+    done < <(sed -n '/^release_dates:/,/^[^ ]/p' <<<"$bioc_yaml" \
+        | sed -nE 's/^ +"([0-9]+\.[0-9]+)": *"([0-9/]+)".*/\1 \2/p' | sort -V)
+    [[ -n "$BIOC_VERSION" ]] \
+        || die "no Bioconductor release for R ${R_VERSION%.*} was out by $SNAPSHOT_DATE; set BIOC_VERSION"
+    AUTO+=" BIOC_VERSION"
+fi
+bioc_r=$(r_for_bioc "$BIOC_VERSION")
 [[ -n "$bioc_r" ]] || die "unknown Bioconductor release $BIOC_VERSION"
-[[ "$bioc_r" == "$r_minor" ]] || die "Bioconductor $BIOC_VERSION requires R $bioc_r.x, but R_VERSION is $R_VERSION"
+if [[ -z "$R_VERSION" ]]; then
+    R_VERSION=$(curl -fsSL "https://hub.docker.com/v2/repositories/${BASE_IMAGE_REPO}/tags?page_size=100&name=${bioc_r}." \
+        | jq -r '.results[].name' | grep -E "^${bioc_r//./\\.}\.[0-9]+$" | sort -V | tail -n1 || true)
+    [[ -n "$R_VERSION" ]] || die "could not find a ${BASE_IMAGE_REPO}:${bioc_r}.x tag; set R_VERSION"
+    AUTO+=" R_VERSION"
+fi
+[[ "$bioc_r" == "${R_VERSION%.*}" ]] || die "Bioconductor $BIOC_VERSION requires R $bioc_r.x, but R_VERSION is $R_VERSION"
 
 ### --- Check the snapshot exists on Posit Package Manager ---
 for url in "https://p3m.dev/cran/$SNAPSHOT_DATE/src/contrib/PACKAGES" \
@@ -121,12 +151,16 @@ printf '%s\n' "$tpl" > "$DEF"
 
 cp "$CONFIG" "$OUT_DIR/inputs/config.sh"
 cp "$PACKAGES_FILE" "$OUT_DIR/inputs/packages.txt"
+# The copied config may have blanks; record what they resolved to.
+printf 'R_VERSION=%s\nBIOC_VERSION=%s\nBASE_DIGEST=%s\nAUTO_RESOLVED=%s\n' \
+    "$R_VERSION" "$BIOC_VERSION" "$digest" "${AUTO# }" > "$OUT_DIR/inputs/resolved.txt"
 
 cat >&2 <<EOF
 Generated: $DEF
   base      ${BASE_IMAGE_REPO}:${R_VERSION} @ ${digest}
   snapshot  ${SNAPSHOT_DATE} (CRAN + Bioconductor ${BIOC_VERSION})
-  packages  ${PKGS[*]}
+${AUTO:+  auto      resolved${AUTO} (blank in config)
+}  packages  ${PKGS[*]}
 
 Review the .def, then build (run from $SCRIPT_DIR):
   sbatch build.sh $OUT_DIR

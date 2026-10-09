@@ -14,7 +14,7 @@ needs no LLM step: all R images share one template.
 cd /rs1/shares/brc/admin/containers/custom_containeR
 
 # 1. Edit the per-image settings at the top of config.sh
-#    (NAME, R_VERSION, BIOC_VERSION, SNAPSHOT_DATE)
+#    (NAME and SNAPSHOT_DATE; R_VERSION/BIOC_VERSION can stay blank)
 # 2. List packages in packages.txt
 # 3. Generate the .def, review it, and submit the build (from a login node)
 ./run.sh                     # asks before submitting; [v] views the .def
@@ -60,7 +60,22 @@ they can move. To get the SHA for a branch's current head:
 curl -s https://api.github.com/repos/<owner>/<repo>/commits/HEAD | jq -r .sha
 ```
 
-`DEFAULT_PACKAGES` in `config.sh` (default: `tidyverse`) is added to every image.
+`DEFAULT_PACKAGES` in `config.sh` (default: `tidyverse`; `""` for none) is added to every image.
+
+## Default R and Bioconductor versions
+
+Leave `R_VERSION` and/or `BIOC_VERSION` blank and `generate_def.sh` fills them in:
+
+| Blank | Resolved to |
+|---|---|
+| `BIOC_VERSION` | newest Bioconductor **release** (never devel) out by `SNAPSHOT_DATE`, restricted to `R_VERSION`'s minor if that is set |
+| `R_VERSION` | newest `rocker/r-ver` X.Y.Z tag for that Bioconductor release's R minor |
+
+The resolved values are printed, pinned in the `.def`, and recorded in
+`inputs/resolved.txt`. Builds stay reproducible because the saved `.def`
+never contains a blank. PPM keeps serving a Bioconductor release's snapshots
+only until roughly the next release comes out. To use an older release, also
+use an older `SNAPSHOT_DATE`; the generator reports a 404 otherwise.
 
 ## How reproducibility works
 
@@ -124,7 +139,8 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 
 ## Validation done by generate_def.sh
 
-- `NAME`/`VERSION_TAG` charset, `R_VERSION` is X.Y.Z (no floating `4.6`)
+- `NAME`/`VERSION_TAG` charset, `R_VERSION` is X.Y.Z or blank (no floating `4.6`)
+- blank `R_VERSION`/`BIOC_VERSION` resolved (see above)
 - `BIOC_VERSION` matches the R version (from `bioconductor.org/config.yaml`)
 - `SNAPSHOT_DATE` is valid, in the past, and exists on PPM for CRAN and Bioc
 - the rocker tag exists (digest lookup)
