@@ -13,20 +13,21 @@ needs no LLM step: all R images share one template.
 ```bash
 cd /rs1/shares/brc/admin/containers/custom_containeR
 
-# 1. Edit the per-image settings at the top of config.sh
-#    (NAME and SNAPSHOT_DATE; R_VERSION/BIOC_VERSION can stay blank)
-# 2. List packages in packages.txt
+# 1. Start an image: creates images/<NAME>/config.sh + packages.txt
+./new_image.sh my_image
+# 2. List packages in images/my_image/packages.txt; review its config.sh
+#    (SNAPSHOT_DATE is set to yesterday; R_VERSION/BIOC_VERSION can stay blank)
 # 3. Generate the .def, review it, and submit the build (from a login node)
-./run.sh                     # asks before submitting; [v] views the .def
+./run.sh images/my_image/config.sh     # asks before submitting; [v] views the .def
 ```
 
-`run.sh [--yes] [--wait] [config.sh]` chains the two steps below. `--yes`
+`run.sh [--yes] [--wait] images/<NAME>/config.sh` chains the two steps below. `--yes`
 skips the prompt (required when not on a terminal), and `--wait` blocks until
 the job ends, exiting non-zero if no `.sif` was produced. The steps also run
 on their own:
 
 ```bash
-./generate_def.sh            # validate + render .def (login node is fine: small HTTP lookups only)
+./generate_def.sh images/<NAME>/config.sh   # validate + render .def (login node is fine: small HTTP lookups only)
 sbatch build.sh builds/<NAME>/<VERSION_TAG>    # build on the xfer partition
 ```
 
@@ -39,8 +40,24 @@ because Posit Package Manager serves pre-compiled binaries.
 
 Builds write nothing to the xfer node's local `/tmp`. Apptainer's cache,
 its working rootfs, and a per-job directory bound over `/tmp` and `/var/tmp`
-all live on scratch (`/share/brc/$USER/.apptainer/`; see the bottom of
-`config.sh`). The per-job directory is deleted when the build ends.
+all live on scratch (`/share/brc/$USER/.apptainer/`; see `site.sh`). The per-job directory is deleted when the build ends.
+
+## Where settings live
+
+| File | Tracked | Holds |
+|---|---|---|
+| `site.sh` | yes | site settings shared by every image: `BUILDS_DIR`, scratch paths, base image repo, `MAINTAINER` (defaults to `$USER@ncsu.edu`) |
+| `config.example.sh`, `packages.example.txt` | yes | templates; never edited directly |
+| `images/<NAME>/config.sh`, `packages.txt` | **no** (gitignored) | one image's settings, made by `new_image.sh` |
+
+The repo is one shared checkout on `/rs1`, so a folder per image lets
+several admins prepare images at once without editing the same file, and
+keeps `git status` clean. An image's config is sourced after `site.sh`, so
+it can override any site setting (the smoke test overrides `BUILDS_DIR`).
+To change an image later, edit its folder and regenerate with a new
+`VERSION_TAG` (or on a new day). Nothing is lost by not tracking `images/`:
+each build keeps a read-only copy of `site.sh`, the config and the package
+list in `builds/<NAME>/<TAG>/inputs/`.
 
 ## packages.txt syntax
 
@@ -82,7 +99,7 @@ So to get a version, find a date when it was current:
 # Suggested:  SNAPSHOT_DATE="2025-04-08"   (verified on PPM)
 ```
 
-Put that date in `config.sh` and list the packages in `packages.txt` without
+Put that date in the image's `config.sh` and list the packages in `packages.txt` without
 `@version`. The suggestion is the latest date in the range, so everything
 else is as new as possible, and it is checked against PPM. The helper is
 CRAN-only (Bioconductor versions follow `BIOC_VERSION`) and fails clearly if
@@ -92,7 +109,7 @@ Use a `pkg@version` pin only when one package must be old and everything
 else current. The exact versions installed are always recorded in
 `provenance/renv.lock` either way.
 
-`DEFAULT_PACKAGES` in `config.sh` (default: `tidyverse`; `""` for none) is added to every image.
+`DEFAULT_PACKAGES` in the image's `config.sh` (default: `tidyverse`; `""` for none) is added to every image.
 
 ## Default R and Bioconductor versions
 
@@ -131,7 +148,7 @@ Each build gets its own directory; nothing is ever overwritten:
 builds/<NAME>/<VERSION_TAG>/
 ├── <NAME>_<VERSION_TAG>.def      generated definition
 ├── <NAME>_<VERSION_TAG>.sif      the image
-├── inputs/                       config.sh + packages.txt used
+├── inputs/                       site.sh, config.sh, packages.txt used; resolved.txt
 └── provenance/                   (also inside the image at /opt/provenance)
     ├── renv.lock                 every package: version, repo, GitHub SHA
     ├── installed_packages.tsv    flat table of the same
@@ -147,7 +164,7 @@ builds/<NAME>/<VERSION_TAG>/
 After a successful build the directory is made read-only (`chmod -R a-w`).
 To delete a build on purpose: `chmod -R u+w builds/<NAME>/<TAG> && rm -r ...`.
 
-`VERSION_TAG` defaults to today's date. Set it explicitly in `config.sh` to
+`VERSION_TAG` defaults to today's date. Set it explicitly in the image's `config.sh` to
 build a second image with the same name on the same day.
 
 ## Using an image
@@ -183,8 +200,11 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 
 | File | Purpose |
 |---|---|
-| `config.sh` | per-image settings (top) + site settings (bottom) |
-| `packages.txt` | package list |
+| `new_image.sh` | start an image: copy the templates to `images/<NAME>/` with `NAME` and `SNAPSHOT_DATE` filled in |
+| `config.example.sh` | per-image settings template |
+| `packages.example.txt` | package list template (syntax in its header) |
+| `site.sh` | site settings, sourced before the image config and by `build.sh` |
+| `images/` | per-image configs (gitignored) |
 | `template.def` | the single R template; `@PLACEHOLDER@`s filled by the generator |
 | `generate_def.sh` | validate inputs, resolve digest, render `.def` |
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |

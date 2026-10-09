@@ -1,11 +1,13 @@
 #!/bin/bash
 # Generate a pinned Apptainer .def for an R image from config.sh + packages.txt.
 #
-# Usage: ./generate_def.sh [config.sh]
+# Usage: ./generate_def.sh images/<NAME>/config.sh
+#
+# Sources site.sh, then the image's config.sh (which may override it).
 #
 # Writes builds/<NAME>/<VERSION_TAG>/ containing:
 #   <NAME>_<VERSION_TAG>.def   the generated definition
-#   inputs/                     copies of the config and packages file used
+#   inputs/                     copies of site.sh, the config and packages file used
 # The summary and the sbatch command that builds it go to stderr; stdout is
 # only the build directory path, so run.sh can capture it.
 #
@@ -14,12 +16,15 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CONFIG="${1:-$SCRIPT_DIR/config.sh}"
-[[ -f "$CONFIG" ]] || { echo "ERROR: config not found: $CONFIG" >&2; exit 1; }
-CONFIG="$(cd "$(dirname "$CONFIG")" && pwd)/$(basename "$CONFIG")"
-source "$CONFIG"
-
 die() { echo "ERROR: $*" >&2; exit 1; }
+[[ $# -eq 1 ]] || die "usage: $0 images/<NAME>/config.sh  (start one with ./new_image.sh <NAME>)"
+CONFIG="$1"
+[[ -f "$CONFIG" ]] || die "config not found: $CONFIG"
+CONFIG="$(cd "$(dirname "$CONFIG")" && pwd)/$(basename "$CONFIG")"
+[[ "$CONFIG" != "$SCRIPT_DIR/config.example.sh" ]] \
+    || die "config.example.sh is the template; run ./new_image.sh <NAME> and use its copy"
+source "$SCRIPT_DIR/site.sh"
+source "$CONFIG"
 
 # Relative PACKAGES_FILE is resolved against the config's directory.
 [[ "$PACKAGES_FILE" = /* ]] || PACKAGES_FILE="$(dirname "$CONFIG")/$PACKAGES_FILE"
@@ -31,6 +36,7 @@ BIOC_VERSION="${BIOC_VERSION:-}"
 DEFAULT_PACKAGES="${DEFAULT_PACKAGES-tidyverse}"
 
 ### --- Validate scalar settings ---
+[[ -n "${NAME:-}" ]] || die "NAME is not set in $CONFIG"
 [[ "$NAME" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "NAME '$NAME' must be letters/digits/._- only"
 [[ "$VERSION_TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "VERSION_TAG '$VERSION_TAG' must be letters/digits/._- only"
 [[ -z "$R_VERSION" || "$R_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || die "R_VERSION must be X.Y.Z or blank (got '$R_VERSION'); minor-only tags like 4.6 move"
@@ -149,6 +155,7 @@ leftover=$(grep -oE '@[A-Z_]+@' <<<"$tpl" | sort -u | tr '\n' ' ' || true)
 [[ -z "$leftover" ]] || die "unfilled template placeholders: $leftover"
 printf '%s\n' "$tpl" > "$DEF"
 
+cp "$SCRIPT_DIR/site.sh" "$OUT_DIR/inputs/site.sh"
 cp "$CONFIG" "$OUT_DIR/inputs/config.sh"
 cp "$PACKAGES_FILE" "$OUT_DIR/inputs/packages.txt"
 # The copied config may have blanks; record what they resolved to.

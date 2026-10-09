@@ -22,7 +22,7 @@ set -euo pipefail
 
 # sbatch runs a spool copy of this script, so $0 doesn't point at the repo.
 SCRIPT_DIR="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$0")" && pwd)}"
-source "$SCRIPT_DIR/config.sh"
+source "$SCRIPT_DIR/site.sh"   # only site settings are needed here
 
 [[ $# -eq 1 ]] || { echo "Usage: sbatch build.sh builds/<NAME>/<VERSION_TAG>" >&2; exit 1; }
 OUT_DIR="$(cd "$1" && pwd)" || { echo "ERROR: build dir not found: $1" >&2; exit 1; }

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Full pipeline: generate the .def, then submit the build to the xfer partition.
 #
-# Usage: ./run.sh [--yes] [--wait] [config.sh]
+# Usage: ./run.sh [--yes] [--wait] images/<NAME>/config.sh
 #
 #   --yes    submit without asking (required when stdin is not a terminal)
 #   --wait   block until the build job ends; exit 0 only if the .sif exists
@@ -25,19 +25,18 @@ while (( $# )); do
     esac
     shift
 done
+[[ -n "$CONFIG" ]] || { echo "ERROR: no config given (start one with ./new_image.sh <NAME>)" >&2; usage; }
 # Make the config path absolute before changing directory.
-if [[ -n "$CONFIG" ]]; then
-    [[ -f "$CONFIG" ]] || die "config not found: $CONFIG"
-    CONFIG="$(cd "$(dirname "$CONFIG")" && pwd)/$(basename "$CONFIG")"
-fi
+[[ -f "$CONFIG" ]] || die "config not found: $CONFIG"
+CONFIG="$(cd "$(dirname "$CONFIG")" && pwd)/$(basename "$CONFIG")"
 
-# build.sh finds config.sh via $SLURM_SUBMIT_DIR and writes logs/ relative to
+# build.sh finds site.sh via $SLURM_SUBMIT_DIR and writes logs/ relative to
 # it, so always submit from the repo dir.
 cd "$SCRIPT_DIR"
 mkdir -p logs
 
 ### --- Step 1: generate ---
-OUT_DIR=$(./generate_def.sh ${CONFIG:+"$CONFIG"})
+OUT_DIR=$(./generate_def.sh "$CONFIG")
 DEF=$(find "$OUT_DIR" -maxdepth 1 -name '*.def')
 SIF="${DEF%.def}.sif"
 

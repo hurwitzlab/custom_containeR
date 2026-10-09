@@ -78,5 +78,6 @@ done
 (( ok )) || die "PPM disagrees with crandb for $SUGGEST; try an earlier date in the range"
 echo "Suggested:  SNAPSHOT_DATE=\"$SUGGEST\"   (verified on PPM)"
 echo
-echo "Then list the packages in packages.txt without @version."
+echo "Then put that date in images/<NAME>/config.sh and list the packages in its"
+echo "packages.txt without @version."
 echo "If you leave BIOC_VERSION blank, it resolves to the release current on that date."

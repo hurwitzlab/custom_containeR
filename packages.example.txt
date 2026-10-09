@@ -11,5 +11,4 @@
 # To get a specific version, pick a date instead:
 #   ./snapshot_dates.sh dplyr@1.1.4 [more@versions ...]
 
-data.table
-bioc::limma
+# Packages for this image (tidyverse is added by DEFAULT_PACKAGES in config.sh):

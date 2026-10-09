@@ -1,5 +1,4 @@
-# Configuration for custom_containeR.
-# Sourced by generate_def.sh and build.sh.
+# Smoke-test config: one of each package reference type. Tracked in git.
 
 # ------------------------------------------------------------
 # Per-image settings: edit these before each new image
@@ -30,18 +29,8 @@ DEFAULT_PACKAGES="tidyverse"
 VERSION_TAG="${VERSION_TAG:-$(date +%Y%m%d)}"
 
 # ------------------------------------------------------------
-# Site settings: rarely change
+# Site overrides (everything else comes from site.sh)
 # ------------------------------------------------------------
 
-MAINTAINER="sdweave2@ncsu.edu"
-BASE_IMAGE_REPO="rocker/r-ver"
-
-# Every build gets builds/<NAME>/<VERSION_TAG>/ with the .def, .sif,
-# inputs and provenance.
+# Keep test builds out of the real builds/ directory.
 BUILDS_DIR="/share/brc/$USER/custom_containeR_tests/builds"
-
-# Apptainer cache/tmp dirs. These MUST be on scratch, not $HOME (1 GB quota
-# fills mid-pull and fails with a misleading exit 255).
-APPTAINER_CACHEDIR="/share/brc/$USER/.apptainer/cache"
-APPTAINER_TMPDIR="/share/brc/$USER/.apptainer/tmp"
-BUILD_TMP_ROOT="/share/brc/$USER/.apptainer/build-tmp"
