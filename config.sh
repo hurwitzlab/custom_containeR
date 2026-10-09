@@ -24,8 +24,8 @@ BIOC_VERSION=""
 #   - New image, no constraints: a recent date, e.g. a few days ago.
 #   - Matching an existing analysis or paper: the date that work was done, so
 #     package versions match what was used.
-#   - Need a specific package version or bug fix: any date after it reached
-#     CRAN/Bioconductor (check the package's CRAN page or NEWS).
+#   - Need a specific package version or bug fix: a date when it was current.
+#     For CRAN, ./snapshot_dates.sh dplyr@1.1.4 [...] finds the date range.
 #   - Adding packages to an existing image: reuse that image's date (see its
 #     provenance/build_info.txt) so shared packages stay identical.
 #   - Older Bioconductor release: a date while it was the current release.

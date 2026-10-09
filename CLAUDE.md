@@ -20,6 +20,11 @@ config.sh + packages.txt
                        apptainer build (+%test) -> .sif, export /opt/provenance, chmod a-w
 ```
 
+`snapshot_dates.sh pkg@ver ...` is a standalone helper: crandb timeline ->
+window when each version was current -> overlap, latest date verified against
+the PPM snapshot's PACKAGES. It nudges users to pin by date rather than by
+`@version`.
+
 `run.sh` chains both steps: it captures the build dir from `generate_def.sh`'s
 stdout (the summary goes to stderr; keep it that way), prompts unless
 `--yes`, and with `--wait` polls `squeue` and treats the existence of the

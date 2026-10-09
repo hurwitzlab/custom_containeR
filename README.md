@@ -52,6 +52,7 @@ One reference per line ([pak](https://pak.r-lib.org/) syntax), `#` for comments:
 | `bioc::DESeq2` | Bioconductor `BIOC_VERSION`, as of `SNAPSHOT_DATE` |
 | `github::owner/repo@<commit-sha>` | GitHub at an exact commit |
 | `pkgname=github::owner/repo@<sha>` | same, when the R package name differs from the repo name |
+| `dplyr@1.1.4` | CRAN at an exact version. Last resort; see below |
 
 GitHub refs **must** be commit SHAs; branches and tags are rejected because
 they can move. To get the SHA for a branch's current head:
@@ -59,6 +60,37 @@ they can move. To get the SHA for a branch's current head:
 ```bash
 curl -s https://api.github.com/repos/<owner>/<repo>/commits/HEAD | jq -r .sha
 ```
+
+### Wanting a specific version: pick a date, not a pin
+
+The snapshot date pins **every** package, including all dependencies, to a
+set that was on CRAN together, and PPM serves them as pre-compiled binaries.
+A `pkg@version` pin fixes only that one package. Its dependencies still come
+from the snapshot date, the old version is usually compiled from source
+(slower, and may fail against the newer compilers and libraries in the base
+image), and pak may find no solution if the pinned version conflicts with
+the snapshot's dependencies.
+
+So to get a version, find a date when it was current:
+
+```bash
+./snapshot_dates.sh dplyr@1.1.4 ggplot2@3.5.1
+# dplyr 1.1.4              released 2023-11-17, replaced 2026-02-03
+# ggplot2 3.5.1            released 2024-04-23, replaced 2025-04-09
+#
+# SNAPSHOT_DATE range: 2024-04-24 .. 2025-04-08
+# Suggested:  SNAPSHOT_DATE="2025-04-08"   (verified on PPM)
+```
+
+Put that date in `config.sh` and list the packages in `packages.txt` without
+`@version`. The suggestion is the latest date in the range, so everything
+else is as new as possible, and it is checked against PPM. The helper is
+CRAN-only (Bioconductor versions follow `BIOC_VERSION`) and fails clearly if
+the versions never overlapped or predate PPM (2017-10-10).
+
+Use a `pkg@version` pin only when one package must be old and everything
+else current. The exact versions installed are always recorded in
+`provenance/renv.lock` either way.
 
 `DEFAULT_PACKAGES` in `config.sh` (default: `tidyverse`; `""` for none) is added to every image.
 
@@ -156,6 +188,7 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 | `template.def` | the single R template; `@PLACEHOLDER@`s filled by the generator |
 | `generate_def.sh` | validate inputs, resolve digest, render `.def` |
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |
+| `snapshot_dates.sh` | find `SNAPSHOT_DATE`s when given CRAN `pkg@version`s were current |
 | `run.sh` | pipeline wrapper: `generate_def.sh`, review prompt, `sbatch build.sh`, optional wait |
 | `tests/smoke/` | config + packages exercising CRAN, Bioc and GitHub refs |
 

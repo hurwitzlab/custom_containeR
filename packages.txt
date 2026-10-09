@@ -8,6 +8,8 @@
 # Branch or tag names for GitHub refs are rejected because they can move.
 # Avoid CRAN version pins (dplyr@1.1.4). The snapshot date already pins
 # versions, and hand pins build from source and can conflict with deps.
+# To get a specific version, pick a date instead:
+#   ./snapshot_dates.sh dplyr@1.1.4 [more@versions ...]
 
 data.table
 bioc::limma
