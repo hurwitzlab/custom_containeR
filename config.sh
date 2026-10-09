@@ -1,4 +1,4 @@
-# Configuration for custom_R_container.
+# Configuration for custom_containeR.
 # Sourced by generate_def.sh and build.sh.
 
 # ------------------------------------------------------------
@@ -38,7 +38,7 @@ BASE_IMAGE_REPO="rocker/r-ver"
 
 # Every build gets builds/<NAME>/<VERSION_TAG>/ with the .def, .sif,
 # inputs and provenance.
-BUILDS_DIR="${BUILDS_DIR:-/rs1/shares/brc/admin/containers/custom_R_container/builds}"
+BUILDS_DIR="${BUILDS_DIR:-/rs1/shares/brc/admin/containers/custom_containeR/builds}"
 
 # Apptainer cache/tmp dirs. These MUST be on scratch, not $HOME (1 GB quota
 # fills mid-pull and fails with a misleading exit 255).

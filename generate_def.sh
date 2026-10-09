@@ -6,7 +6,8 @@
 # Writes builds/<NAME>/<VERSION_TAG>/ containing:
 #   <NAME>_<VERSION_TAG>.def   the generated definition
 #   inputs/                     copies of the config and packages file used
-# then prints the sbatch command that builds it.
+# The summary and the sbatch command that builds it go to stderr; stdout is
+# only the build directory path, so run.sh can capture it.
 #
 # Needs outbound internet (Docker Hub, bioconductor.org, p3m.dev) for a few
 # small lookups only, so it is fine on a login node.
@@ -121,7 +122,7 @@ printf '%s\n' "$tpl" > "$DEF"
 cp "$CONFIG" "$OUT_DIR/inputs/config.sh"
 cp "$PACKAGES_FILE" "$OUT_DIR/inputs/packages.txt"
 
-cat <<EOF
+cat >&2 <<EOF
 Generated: $DEF
   base      ${BASE_IMAGE_REPO}:${R_VERSION} @ ${digest}
   snapshot  ${SNAPSHOT_DATE} (CRAN + Bioconductor ${BIOC_VERSION})
@@ -130,3 +131,4 @@ Generated: $DEF
 Review the .def, then build (run from $SCRIPT_DIR):
   sbatch build.sh $OUT_DIR
 EOF
+echo "$OUT_DIR"

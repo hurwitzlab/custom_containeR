@@ -20,6 +20,11 @@ config.sh + packages.txt
                        apptainer build (+%test) -> .sif, export /opt/provenance, chmod a-w
 ```
 
+`run.sh` chains both steps: it captures the build dir from `generate_def.sh`'s
+stdout (the summary goes to stderr; keep it that way), prompts unless
+`--yes`, and with `--wait` polls `squeue` and treats the existence of the
+`.sif` as success.
+
 ## Design rules (don't regress these)
 
 - **The reproducibility contract.** Base image pinned by **digest**. CRAN
@@ -105,8 +110,8 @@ config.sh + packages.txt
 ## Testing changes
 
 ```bash
-./generate_def.sh tests/smoke/config.sh      # writes to /share/brc/$USER/custom_R_container_tests
-sbatch build.sh /share/brc/$USER/custom_R_container_tests/builds/smoke_test/<TAG>
+./generate_def.sh tests/smoke/config.sh      # writes to /share/brc/$USER/custom_containeR_tests
+sbatch build.sh /share/brc/$USER/custom_containeR_tests/builds/smoke_test/<TAG>
 ```
 
 Then check `provenance/renv.lock` (limma `RemoteRepos` = PPM snapshot,

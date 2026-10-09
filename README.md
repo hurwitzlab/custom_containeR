@@ -16,12 +16,23 @@ cd /rs1/shares/brc/admin/containers/custom_containeR
 # 1. Edit the per-image settings at the top of config.sh
 #    (NAME, R_VERSION, BIOC_VERSION, SNAPSHOT_DATE)
 # 2. List packages in packages.txt
-# 3. Generate the .def (login node is fine: only small HTTP lookups)
-./generate_def.sh
-
-# 4. Review the printed .def, then build on the xfer partition
-sbatch build.sh builds/<NAME>/<VERSION_TAG>
+# 3. Generate the .def, review it, and submit the build (from a login node)
+./run.sh                     # asks before submitting; [v] views the .def
 ```
+
+`run.sh [--yes] [--wait] [config.sh]` chains the two steps below. `--yes`
+skips the prompt (required when not on a terminal), and `--wait` blocks until
+the job ends, exiting non-zero if no `.sif` was produced. The steps also run
+on their own:
+
+```bash
+./generate_def.sh            # validate + render .def (login node is fine: small HTTP lookups only)
+sbatch build.sh builds/<NAME>/<VERSION_TAG>    # build on the xfer partition
+```
+
+Running them separately is useful for retrying a failed build without
+regenerating (the resolved digest stays the same) or for building a `.def`
+you edited by hand.
 
 A tidyverse + a few Bioconductor packages builds in about 5–10 minutes
 because Posit Package Manager serves pre-compiled binaries.
@@ -129,6 +140,7 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 | `template.def` | the single R template; `@PLACEHOLDER@`s filled by the generator |
 | `generate_def.sh` | validate inputs, resolve digest, render `.def` |
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |
+| `run.sh` | pipeline wrapper: `generate_def.sh`, review prompt, `sbatch build.sh`, optional wait |
 | `tests/smoke/` | config + packages exercising CRAN, Bioc and GitHub refs |
 
 ## Not (yet) included
