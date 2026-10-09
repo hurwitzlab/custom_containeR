@@ -57,6 +57,12 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
   gives the modulefile path, so the log's tree field is derived, not baked
   in. `module show` processes `source` lines but not load-mode blocks, so
   it checks modulefiles without writing log lines.
+- `module_loads.log` is parsed by the BRC Infrastructure Homepage
+  (`/rs1/shares/brc/admin/infrastructure/brc_infra_site`,
+  `scripts/parse_modules.py` `parse_usage_log()`), which counts only lines
+  whose 6th field is `brc_modules`. Any change to the log format or path in
+  `module_log.tcl` must be made there too, and that repo's config.sh points
+  at the brc_modules paths (modules, images, log).
 - Setgid dirs (2755) make container-mod print "expected 755" permission
   warnings; harmless.
 - container-mod's repo is TuftsRT's (no fork), so `profiles/developer_tools`
