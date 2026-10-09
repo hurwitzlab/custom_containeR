@@ -182,6 +182,51 @@ The image ignores host R libraries. `~/R/...` (visible through the `/home`
 bind mount) and any `R_LIBS*` from a host R module are kept off
 `.libPaths()`, so host-compiled packages can't mix in. `%test` checks this.
 
+## Deploying as a module
+
+```bash
+./deploy.sh builds/<NAME>/<TAG>       # login node; asks before deploying
+```
+
+This publishes the image as module `<name>/<TAG>` (name lowercased) under
+`/usr/local/usrapps/brc/developer_tools`, using container-mod with the
+`developer_tools` profile. Users then run:
+
+```bash
+module use /usr/local/usrapps/brc/developer_tools/modules
+module load microbial_ecology/20261009
+Rscript my_analysis.R          # R and Rscript wrappers run inside the image
+```
+
+`deploy.sh`:
+
+1. verifies the build (the `.sif` matches `provenance/sif.sha256`)
+2. refuses to overwrite a deployed version, to reuse a module name that
+   exists in `brc_modules`, or to overwrite another tool's container-mod
+   `repos/` entry
+3. writes `repos/<name>` (Description, Home Page, `Programs: R,Rscript`).
+   The description is `DESCRIPTION` from the recipe's `config.sh`, or one
+   built from the R/Bioc versions and package list
+4. copies the `.sif` to `developer_tools/images/` (the build keeps its copy)
+   and runs `container-mod pipe`
+5. appends `family "R"` to the modulefile (so a second R image can't be loaded
+   alongside, with a "module unload R" hint) and the shared logging hook
+6. loads the module and attaches every requested package, then logs to
+   `logs/deploy.log`. If any step fails, it removes what it created.
+
+The container-mod profile is tracked here as `profiles/developer_tools`
+(container-mod's own repo is TuftsRT's). `deploy.sh` installs it into
+container-mod's `profiles/` if missing and refuses to run if the two differ.
+
+Shared by all BRC module trees, in `/usr/local/usrapps/brc/env/`:
+
+| File | Sourced by modulefiles for |
+|---|---|
+| `modules.config` | bind paths (`/rs1`, `/share`, `/gpfs_common`, `/rsstu`) |
+| `module_log.tcl` | load logging to `brc_modules/logs/module_loads.log`, as `timestamp\|user\|group\|tool\|version\|tree`, where tree is `brc_modules` or `developer_tools` |
+
+Change bind paths or logging there, once, for every module.
+
 ## Recreating the library outside the container
 
 ```r
@@ -211,11 +256,12 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 | `generate_def.sh` | validate inputs, resolve digest, render `.def` |
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |
 | `snapshot_dates.sh` | find `SNAPSHOT_DATE`s when given CRAN `pkg@version`s were current |
+| `deploy.sh` | publish a build as a `developer_tools` module via container-mod |
+| `profiles/developer_tools` | container-mod profile (tracked copy) |
 | `run.sh` | pipeline wrapper: `generate_def.sh`, review prompt, `sbatch build.sh`, optional wait |
 | `tests/smoke/` | config + packages exercising CRAN, Bioc and GitHub refs |
 
 ## Not (yet) included
 
-- Deploying as a BRC module via `container-mod` (see `../custom_container_module`)
 - RStudio Server images
 - Rebuilding directly from an existing `renv.lock`

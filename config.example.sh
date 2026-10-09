@@ -33,6 +33,10 @@ BIOC_VERSION=""
 #     (releases each spring and fall), and generate_def.sh reports a 404.
 SNAPSHOT_DATE=""
 
+# One-line description shown by `module help`/`module whatis` once deployed
+# with deploy.sh. Blank: built from the R/Bioc versions and package list.
+DESCRIPTION=""
+
 # One package reference per line (see the file's header for the syntax).
 # Relative paths are resolved against this config's directory.
 PACKAGES_FILE="packages.txt"

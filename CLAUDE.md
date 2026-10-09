@@ -38,6 +38,30 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
 `--yes`, and with `--wait` polls `squeue` and treats the existence of the
 `.sif` as success.
 
+`deploy.sh builds/<NAME>/<TAG>` publishes to `DEPLOY_ROOT`
+(`/usr/local/usrapps/brc/developer_tools`) with `container-mod pipe -t
+--profile developer_tools <copied .sif>`, name/version on stdin
+(`<name lowercased>`, `<TAG>`). Facts it relies on, verified on Hazel
+2026-10-09 (Environment Modules 5.3, Tcl, not Lmod):
+- container-mod leaves a local image in place and its wrappers point at that
+  exact path, so the `.sif` is copied to `DEPLOY_ROOT/images/` first.
+- container-mod reads `repos/<app>` (Description/Home Page/Programs) and
+  prompts on stdin if it is missing, so `deploy.sh` writes it first. `repos/`
+  is shared with the `brc` profile; entries this repo owns have
+  `Home Page: $REPO_URL`, and others are never overwritten.
+- For local images container-mod renders a bogus `DockerHub:
+  https://hub.docker.com/r//<path>` help line; `deploy.sh` deletes it.
+- `family "R"` makes a second R image fail to load with a clear hint.
+- Shared Tcl in `/usr/local/usrapps/brc/env/` (`modules.config`,
+  `module_log.tcl`) is `source`d by modulefiles. `$ModulesCurrentModulefile`
+  gives the modulefile path, so the log's tree field is derived, not baked
+  in. `module show` processes `source` lines but not load-mode blocks, so
+  it checks modulefiles without writing log lines.
+- Setgid dirs (2755) make container-mod print "expected 755" permission
+  warnings; harmless.
+- container-mod's repo is TuftsRT's (no fork), so `profiles/developer_tools`
+  is tracked here; `deploy.sh` installs it and refuses if the copies differ.
+
 ## Design rules (don't regress these)
 
 - **The reproducibility contract.** Base image pinned by **digest**. CRAN
