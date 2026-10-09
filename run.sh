@@ -1,7 +1,7 @@
 #!/bin/bash
 # Full pipeline: generate the .def, then submit the build to the xfer partition.
 #
-# Usage: ./run.sh [--yes] [--wait] images/<NAME>/config.sh
+# Usage: ./run.sh [--yes] [--wait] recipes/<NAME>/config.sh
 #
 #   --yes    submit without asking (required when stdin is not a terminal)
 #   --wait   block until the build job ends; exit 0 only if the .sif exists

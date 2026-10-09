@@ -1,6 +1,6 @@
 # Per-image settings for custom_containeR. TEMPLATE: don't edit this copy.
 # Start a new image with ./new_image.sh <NAME>, which copies this file and
-# packages.example.txt to images/<NAME>/ (not tracked in git). Site-wide
+# packages.example.txt to recipes/<NAME>/ (not tracked in git). Site-wide
 # settings (paths, maintainer) are in site.sh; any of them can be overridden
 # here.
 

@@ -10,4 +10,4 @@ logs/
 
 # Per-image configs made by new_image.sh; each build keeps its own copy in
 # builds/<NAME>/<TAG>/inputs/
-images/
+recipes/

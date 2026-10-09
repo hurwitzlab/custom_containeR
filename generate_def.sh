@@ -1,7 +1,7 @@
 #!/bin/bash
 # Generate a pinned Apptainer .def for an R image from config.sh + packages.txt.
 #
-# Usage: ./generate_def.sh images/<NAME>/config.sh
+# Usage: ./generate_def.sh recipes/<NAME>/config.sh
 #
 # Sources site.sh, then the image's config.sh (which may override it).
 #
@@ -17,7 +17,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 die() { echo "ERROR: $*" >&2; exit 1; }
-[[ $# -eq 1 ]] || die "usage: $0 images/<NAME>/config.sh  (start one with ./new_image.sh <NAME>)"
+[[ $# -eq 1 ]] || die "usage: $0 recipes/<NAME>/config.sh  (start one with ./new_image.sh <NAME>)"
 CONFIG="$1"
 [[ -f "$CONFIG" ]] || die "config not found: $CONFIG"
 CONFIG="$(cd "$(dirname "$CONFIG")" && pwd)/$(basename "$CONFIG")"

@@ -13,21 +13,21 @@ needs no LLM step: all R images share one template.
 ```bash
 cd /rs1/shares/brc/admin/containers/custom_containeR
 
-# 1. Start an image: creates images/<NAME>/config.sh + packages.txt
+# 1. Start a recipe: creates recipes/<NAME>/config.sh + packages.txt
 ./new_image.sh my_image
-# 2. List packages in images/my_image/packages.txt; review its config.sh
+# 2. List packages in recipes/my_image/packages.txt; review its config.sh
 #    (SNAPSHOT_DATE is set to yesterday; R_VERSION/BIOC_VERSION can stay blank)
 # 3. Generate the .def, review it, and submit the build (from a login node)
-./run.sh images/my_image/config.sh     # asks before submitting; [v] views the .def
+./run.sh recipes/my_image/config.sh     # asks before submitting; [v] views the .def
 ```
 
-`run.sh [--yes] [--wait] images/<NAME>/config.sh` chains the two steps below. `--yes`
+`run.sh [--yes] [--wait] recipes/<NAME>/config.sh` chains the two steps below. `--yes`
 skips the prompt (required when not on a terminal), and `--wait` blocks until
 the job ends, exiting non-zero if no `.sif` was produced. The steps also run
 on their own:
 
 ```bash
-./generate_def.sh images/<NAME>/config.sh   # validate + render .def (login node is fine: small HTTP lookups only)
+./generate_def.sh recipes/<NAME>/config.sh   # validate + render .def (login node is fine: small HTTP lookups only)
 sbatch build.sh builds/<NAME>/<VERSION_TAG>    # build on the xfer partition
 ```
 
@@ -48,14 +48,16 @@ all live on scratch (`/share/brc/$USER/.apptainer/`; see `site.sh`). The per-job
 |---|---|---|
 | `site.sh` | yes | site settings shared by every image: `BUILDS_DIR`, scratch paths, base image repo, `MAINTAINER` (defaults to `$USER@ncsu.edu`) |
 | `config.example.sh`, `packages.example.txt` | yes | templates; never edited directly |
-| `images/<NAME>/config.sh`, `packages.txt` | **no** (gitignored) | one image's settings, made by `new_image.sh` |
+| `recipes/<NAME>/config.sh`, `packages.txt` | **no** (gitignored) | one image's recipe (what to build), made by `new_image.sh` |
 
-The repo is one shared checkout on `/rs1`, so a folder per image lets
+A recipe is the editable input; `builds/<NAME>/<TAG>/` is the read-only
+output of each build, so one recipe yields a new build folder every time it
+is built. The repo is one shared checkout on `/rs1`, so a folder per recipe lets
 several admins prepare images at once without editing the same file, and
 keeps `git status` clean. An image's config is sourced after `site.sh`, so
 it can override any site setting (the smoke test overrides `BUILDS_DIR`).
 To change an image later, edit its folder and regenerate with a new
-`VERSION_TAG` (or on a new day). Nothing is lost by not tracking `images/`:
+`VERSION_TAG` (or on a new day). Nothing is lost by not tracking `recipes/`:
 each build keeps a read-only copy of `site.sh`, the config and the package
 list in `builds/<NAME>/<TAG>/inputs/`.
 
@@ -200,11 +202,11 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 
 | File | Purpose |
 |---|---|
-| `new_image.sh` | start an image: copy the templates to `images/<NAME>/` with `NAME` and `SNAPSHOT_DATE` filled in |
+| `new_image.sh` | start an image: copy the templates to a new recipe, `recipes/<NAME>/` with `NAME` and `SNAPSHOT_DATE` filled in |
 | `config.example.sh` | per-image settings template |
 | `packages.example.txt` | package list template (syntax in its header) |
 | `site.sh` | site settings, sourced before the image config and by `build.sh` |
-| `images/` | per-image configs (gitignored) |
+| `recipes/` | per-image recipes: config + package list (gitignored) |
 | `template.def` | the single R template; `@PLACEHOLDER@`s filled by the generator |
 | `generate_def.sh` | validate inputs, resolve digest, render `.def` |
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |

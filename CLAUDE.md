@@ -13,8 +13,8 @@ one `template.def`, filled in by `generate_def.sh`.
 ## Pipeline
 
 ```
-new_image.sh <NAME> -> images/<NAME>/{config.sh,packages.txt}  (gitignored copies of *.example*)
-site.sh + images/<NAME>/config.sh + packages.txt
+new_image.sh <NAME> -> recipes/<NAME>/{config.sh,packages.txt}  (gitignored copies of *.example*)
+site.sh + recipes/<NAME>/config.sh + packages.txt
   -> generate_def.sh   validate, resolve rocker digest, render template.def
                        -> builds/<NAME>/<VERSION_TAG>/<NAME>_<VERSION_TAG>.def + inputs/
   -> sbatch build.sh builds/<NAME>/<VERSION_TAG>   (xfer partition)
@@ -30,8 +30,8 @@ Settings are split: `site.sh` (tracked, shared paths/maintainer) is sourced
 first, then the image's config (which may override it). `build.sh` sources
 only `site.sh`. `config.example.sh`/`packages.example.txt` are templates and
 must not be edited for a build; `generate_def.sh` refuses the template and a
-blank `NAME`. The repo is one shared checkout, which is why per-image configs
-live in `images/<NAME>/` rather than in a tracked `config.sh`.
+blank `NAME`. The repo is one shared checkout, which is why per-image recipes
+(inputs; `builds/` holds outputs) live in `recipes/<NAME>/` rather than in a tracked `config.sh`.
 
 `run.sh` chains both steps: it captures the build dir from `generate_def.sh`'s
 stdout (the summary goes to stderr; keep it that way), prompts unless
