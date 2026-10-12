@@ -154,6 +154,7 @@ builds/<NAME>/<VERSION_TAG>/
 └── provenance/                   (also inside the image at /opt/provenance)
     ├── renv.lock                 every package: version, repo, GitHub SHA
     ├── installed_packages.tsv    flat table of the same
+    ├── package_versions.tsv      package, version, source, requested (what `<name> --help` shows)
     ├── sessionInfo.txt           with all requested packages attached
     ├── dpkg_packages.tsv         OS packages
     ├── build_info.txt            base digest, repo URLs, dates
@@ -175,8 +176,24 @@ build a second image with the same name on the same day.
 module load apptainer
 apptainer exec builds/<NAME>/<TAG>/<NAME>_<TAG>.sif Rscript analysis.R
 apptainer run  builds/<NAME>/<TAG>/<NAME>_<TAG>.sif          # interactive R
-apptainer exec <image>.sif cat /opt/provenance/renv.lock      # what's inside
+apptainer exec <image>.sif <name> --help                     # what's inside
+apptainer exec <image>.sif cat /opt/provenance/renv.lock      # full lockfile
 ```
+
+Every image has a command named after it (`<name>` = `NAME` lowercased),
+written into `/usr/local/bin` at build time from `/opt/provenance`:
+
+| Command | Prints |
+|---------|--------|
+| `<name> --help` | R/Bioc versions, snapshot date, base digest, build date, maintainer, and the requested packages with version and source (CRAN, Bioconductor, `GitHub user/repo@sha`) |
+| `<name> --all` | every R package in the image, same columns |
+| `<name> --system` | apt packages |
+| `<name> --lockfile` | `renv.lock` |
+| `<name> --version` | one line: name, tag, R, Bioc, snapshot |
+
+`%test` fails the build if it doesn't run or misses a requested package.
+`generate_def.sh` refuses a `NAME` of `r` or `rscript` (any case), which
+would shadow R's own commands.
 
 The image ignores host R libraries. `~/R/...` (visible through the `/home`
 bind mount) and any `R_LIBS*` from a host R module are kept off
@@ -195,23 +212,33 @@ This publishes the image as module `<name>/<TAG>` (name lowercased) under
 ```bash
 module use /usr/local/usrapps/brc/developer_tools/modules
 module load microbial_ecology/20261009
+microbial_ecology --help      # packages and versions in this image
 Rscript my_analysis.R          # R and Rscript wrappers run inside the image
 ```
 
+`module load` prints a one-line reminder to run `<name> --help`, and
+`module help <name>` mentions it too.
+
 `deploy.sh`:
 
-1. verifies the build (the `.sif` matches `provenance/sif.sha256`)
+1. verifies the build (the `.sif` matches `provenance/sif.sha256`). Builds
+   made before the `<name>` command existed (no
+   `provenance/package_versions.tsv`) are refused; rebuild them
 2. refuses to overwrite a deployed version, to reuse a module name that
    exists in `brc_modules`, or to overwrite another tool's container-mod
    `repos/` entry
-3. writes `repos/<name>` (Description, Home Page, `Programs: R,Rscript`).
+3. writes `repos/<name>` (Description, Home Page, `Programs: R,Rscript,<name>`).
    The description is `DESCRIPTION` from the recipe's `config.sh`, or one
    built from the R/Bioc versions and package list
 4. copies the `.sif` to `developer_tools/images/` (the build keeps its copy)
    and runs `container-mod pipe`
 5. appends `family "R"` to the modulefile (so a second R image can't be loaded
-   alongside, with a "module unload R" hint) and the shared logging hook
-6. loads the module and attaches every requested package, then logs to
+   alongside, with a "module unload R" hint), the shared logging hook, and
+   the load-time `<name> --help` reminder; switches container-mod's
+   `ModulesHelp` from stdout to stderr so `module help` works under
+   Environment Modules
+6. loads the module, attaches every requested package and runs
+   `<name> --help`, then logs to
    `logs/deploy.log`. If any step fails, it removes what it created.
 
 The container-mod profile is tracked here as `profiles/developer_tools`

@@ -63,6 +63,9 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
   whose 6th field is `brc_modules`. Any change to the log format or path in
   `module_log.tcl` must be made there too, and that repo's config.sh points
   at the brc_modules paths (modules, images, log).
+- container-mod's `ModulesHelp` uses `puts stdout`, which Environment
+  Modules evaluates as shell code (`module help` printed bash errors);
+  `deploy.sh` rewrites it to `puts stderr`.
 - Setgid dirs (2755) make container-mod print "expected 755" permission
   warnings; harmless.
 - container-mod's repo is TuftsRT's (no fork), so `profiles/developer_tools`
@@ -95,7 +98,15 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
   patch tag for that Bioc's R minor) and the `.def` gets exact values plus
   `inputs/resolved.txt`. Never let a blank or "latest" reach the `.def`.
 - Template placeholders are `@UPPER_CASE@`; the generator fails if any are
-  left unfilled.
+  left unfilled. `@CMD@` is `NAME` lowercased (= the module name).
+- **Every image describes itself.** `%post` writes `/usr/local/bin/@CMD@`
+  (`--help/--all/--system/--lockfile/--version`), which reads only
+  `/opt/provenance` (`build_info.txt`, `package_versions.tsv` from
+  `install.R`). `deploy.sh` lists it in `Programs:` so container-mod makes a
+  third wrapper, and the modulefile prints a reminder on load
+  (`module-info mode load`, so `module show` stays quiet). `deploy.sh`
+  refuses builds without `package_versions.tsv`. Adding keys to
+  `build_info.txt` is safe; renaming them breaks both readers.
 
 ## Lessons from empirical builds (2026-10-08)
 

@@ -34,6 +34,10 @@ From: @BASE_REF@
         apptainer exec @NAME@_@VERSION_TAG@.sif Rscript my_script.R
         apptainer run  @NAME@_@VERSION_TAG@.sif          # interactive R
 
+    What's inside (requested packages, versions, sources):
+        apptainer exec @NAME@_@VERSION_TAG@.sif @CMD@ --help
+        apptainer exec @NAME@_@VERSION_TAG@.sif @CMD@ --all
+
     Provenance (exact versions of everything installed):
         apptainer exec @NAME@_@VERSION_TAG@.sif ls /opt/provenance
         apptainer exec @NAME@_@VERSION_TAG@.sif cat /opt/provenance/renv.lock
@@ -120,6 +124,21 @@ write.table(ip[order(ip[, "Package"]), cols],
             file.path(prov, "installed_packages.tsv"),
             sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
+# What `@CMD@ --help` shows: each package once (the copy that loads first
+# on .libPaths()), where it came from, and whether it was requested.
+ip <- installed.packages(fields = c(fields, "git_url"))
+ip <- ip[!duplicated(ip[, "Package"]), , drop = FALSE]
+src <- ifelse(ip[, "RemoteType"] %in% "github",
+              paste0("GitHub ", ip[, "RemoteUsername"], "/", ip[, "RemoteRepo"], "@", ip[, "RemoteSha"]),
+       ifelse(grepl("bioconductor", ip[, "git_url"]), "Bioconductor",
+       ifelse(ip[, "Priority"] %in% "base", "R (base)",
+       ifelse(ip[, "Priority"] %in% "recommended" & ip[, "LibPath"] == .Library,
+              "R (recommended)", "CRAN"))))
+pv <- data.frame(Package = ip[, "Package"], Version = ip[, "Version"], Source = src,
+                 Requested = ifelse(ip[, "Package"] %in% direct, "yes", ""))
+write.table(pv[order(tolower(pv$Package)), ], file.path(prov, "package_versions.tsv"),
+            sep = "\t", quote = FALSE, row.names = FALSE)
+
 # sessionInfo with every requested package attached.
 for (p in direct) suppressPackageStartupMessages(library(p, character.only = TRUE))
 writeLines(c(capture.output(sessionInfo()), "",
@@ -144,9 +163,75 @@ snapshot_date  ${SNAPSHOT_DATE}
 cran_repo      ${CRAN_URL}
 bioc_version   @BIOC_VERSION@
 bioc_mirror    ${BIOC_MIRROR}
+maintainer     @MAINTAINER@
 generated      @GENERATED@
 built          $(date -u +%Y-%m-%dT%H:%M:%SZ)
 EOF
+
+# --- `@CMD@ --help`: say what is in the image -------------------------------
+# deploy.sh exposes this as a module command next to R and Rscript.
+if command -v @CMD@ >/dev/null; then
+    echo "ERROR: '@CMD@' is already a command in the image ($(command -v @CMD@)); use another NAME" >&2
+    exit 1
+fi
+cat > /usr/local/bin/@CMD@ <<'EOF'
+#!/bin/bash
+# Describe this image: requested packages and versions, and where the full
+# build records are. Written by custom_containeR's template.def; reads only
+# /opt/provenance, so it shows exactly what this image was built with.
+set -euo pipefail
+P=/opt/provenance
+CMD=$(basename "$0")
+IMG="${APPTAINER_CONTAINER:-${SINGULARITY_CONTAINER:-<image>.sif}}"
+info() { awk -v k="$1" '$1 == k {sub(/^[^ ]+ +/, ""); print; exit}' "$P/build_info.txt"; }
+
+# Table of package_versions.tsv rows; $1 = "yes" for requested only, "" for all.
+table() {
+    awk -F'\t' -v want="$1" '
+        NR > 1 && (want == "" || $4 == want) {
+            n++; p[n] = $1; v[n] = $2; s[n] = $3
+            if (length($1) > w1) w1 = length($1)
+            if (length($2) > w2) w2 = length($2)
+        }
+        END {
+            fmt = "  %-" w1 "s  %-" w2 "s  %s\n"
+            printf fmt, "Package", "Version", "Source"
+            for (i = 1; i <= n; i++) printf fmt, p[i], v[i], s[i]
+        }' w1=7 w2=7 "$P/package_versions.tsv"
+}
+count() { awk -F'\t' -v want="$1" 'NR > 1 && (want == "" || $4 == want)' "$P/package_versions.tsv" | wc -l; }
+
+case "${1:---help}" in
+-h|--help)
+    cat <<END
+$(info name) $(info version_tag)
+  R $(info r_version), Bioconductor $(info bioc_version)
+  CRAN and Bioconductor packages from the Posit Package Manager snapshot of $(info snapshot_date)
+  Base image: $(info base_image) ($(info base_digest))
+  Built $(info built), maintainer $(info maintainer)
+
+Requested packages ($(count yes) of $(count "") R packages installed; the rest are dependencies or come with R):
+$(table yes)
+
+Run R:
+  Rscript my_script.R                           (with the module loaded)
+  apptainer exec $IMG Rscript my_script.R
+
+More:
+  $CMD --all        every R package in the image, with version and source
+  $CMD --system     system (apt) packages
+  $CMD --lockfile   renv.lock (recreate this library with renv::restore())
+  Build records: /opt/provenance inside the image
+END
+    ;;
+--all)      table "" ;;
+--system)   printf 'Package\tVersion\n'; cat "$P/dpkg_packages.tsv" ;;
+--lockfile) cat "$P/renv.lock" ;;
+--version)  echo "$(info name) $(info version_tag) (R $(info r_version), Bioconductor $(info bioc_version), snapshot $(info snapshot_date))" ;;
+*)          echo "usage: $CMD [--help | --all | --system | --lockfile | --version]" >&2; exit 1 ;;
+esac
+EOF
+chmod 755 /usr/local/bin/@CMD@
 
 # --- Clean up ---------------------------------------------------------------
 # NEVER touch /tmp here (host /tmp, see top of %post).
@@ -179,3 +264,9 @@ rm -rf /var/lib/apt/lists/* /root/.cache/R "$TMPDIR"
       for (p in pk) suppressPackageStartupMessages(library(p, character.only = TRUE))
       cat("OK:", length(pk), "requested packages load; libPaths:", lp, "\n")
     '
+    # The info command runs and lists every requested package as requested.
+    @CMD@ --help > /dev/null
+    @CMD@ --all > /dev/null
+    [ "$(awk -F'\t' '$4 == "yes"' /opt/provenance/package_versions.tsv | wc -l)" \
+      -eq "$(wc -l < /opt/provenance/direct_packages.txt)" ]
+    echo "OK: @CMD@ --help"

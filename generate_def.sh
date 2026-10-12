@@ -38,6 +38,9 @@ DEFAULT_PACKAGES="${DEFAULT_PACKAGES-tidyverse}"
 ### --- Validate scalar settings ---
 [[ -n "${NAME:-}" ]] || die "NAME is not set in $CONFIG"
 [[ "$NAME" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "NAME '$NAME' must be letters/digits/._- only"
+# ${NAME,,} becomes a command in the image (`<name> --help`) and the module
+# name; it must not shadow R's own commands.
+[[ ! "${NAME,,}" =~ ^(r|rscript)$ ]] || die "NAME '$NAME' would shadow R/Rscript; choose another"
 [[ "$VERSION_TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || die "VERSION_TAG '$VERSION_TAG' must be letters/digits/._- only"
 [[ -z "$R_VERSION" || "$R_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || die "R_VERSION must be X.Y.Z or blank (got '$R_VERSION'); minor-only tags like 4.6 move"
 [[ -z "$BIOC_VERSION" || "$BIOC_VERSION" =~ ^[0-9]+\.[0-9]+$ ]] || die "BIOC_VERSION must be X.Y or blank (got '$BIOC_VERSION')"
@@ -144,6 +147,7 @@ subst @BASE_REF@         "${BASE_IMAGE_REPO}@${digest}"
 subst @BASE_IMAGE_REPO@  "$BASE_IMAGE_REPO"
 subst @BASE_DIGEST@      "$digest"
 subst @NAME@             "$NAME"
+subst @CMD@              "${NAME,,}"
 subst @VERSION_TAG@      "$VERSION_TAG"
 subst @R_VERSION@        "$R_VERSION"
 subst @BIOC_VERSION@     "$BIOC_VERSION"
