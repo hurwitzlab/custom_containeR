@@ -1,0 +1,167 @@
+Package	Version	Priority	LibPath	Repository	RemoteType	RemoteUsername	RemoteRepo	RemoteRef	RemoteSha	Built
+abind	1.4-8		/usr/local/lib/R/site-library	RSPM	standard			abind	1.4-8	R 4.6.0; ; 2026-08-12 20:21:30 UTC; unix
+askpass	1.2.1		/usr/local/lib/R/site-library	RSPM	standard			askpass	1.2.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:43 UTC; unix
+backports	1.5.1		/usr/local/lib/R/site-library	RSPM	standard			backports	1.5.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+base	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; ; 2026-09-11 12:43:09 UTC; unix
+base64enc	0.1-6		/usr/local/lib/R/site-library	RSPM	standard			base64enc	0.1-6	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+bit	4.6.0		/usr/local/lib/R/site-library	RSPM	standard			bit	4.6.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:34 UTC; unix
+bit64	4.8.6		/usr/local/lib/R/site-library	RSPM	standard			bit64	4.8.6	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-02 04:00:12 UTC; unix
+blob	1.3.0		/usr/local/lib/R/site-library	RSPM	standard			blob	1.3.0	R 4.6.0; ; 2026-08-12 20:22:28 UTC; unix
+boot	1.3-32	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; ; 2026-09-11 12:47:04 UTC; unix
+broom	1.0.13		/usr/local/lib/R/site-library	RSPM	standard			broom	1.0.13	R 4.6.0; ; 2026-08-12 20:23:52 UTC; unix
+bslib	0.12.0		/usr/local/lib/R/site-library	RSPM	standard			bslib	0.12.0	R 4.6.0; ; 2026-08-12 20:23:52 UTC; unix
+cachem	1.1.0		/usr/local/lib/R/site-library	RSPM	standard			cachem	1.1.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:49 UTC; unix
+callr	3.8.0		/usr/local/lib/R/site-library	RSPM	standard			callr	3.8.0	R 4.6.0; ; 2026-08-12 20:22:01 UTC; unix
+car	3.1-5		/usr/local/lib/R/site-library	RSPM	standard			car	3.1-5	R 4.6.0; ; 2026-08-12 20:27:00 UTC; unix
+carData	3.0-6		/usr/local/lib/R/site-library	RSPM	standard			carData	3.0-6	R 4.6.0; ; 2026-08-12 20:21:34 UTC; unix
+cellranger	1.1.0		/usr/local/lib/R/site-library	RSPM	standard			cellranger	1.1.0	R 4.6.0; ; 2026-09-26 06:35:53 UTC; unix
+class	7.3-23	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:22 UTC; unix
+cli	3.6.6		/usr/local/lib/R/site-library	RSPM	standard			cli	3.6.6	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+clipr	0.8.1		/usr/local/lib/R/site-library	RSPM	standard			clipr	0.8.1	R 4.6.0; ; 2026-08-12 20:21:36 UTC; unix
+cluster	2.1.8.2	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:07 UTC; unix
+codetools	0.2-20	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; ; 2026-09-11 12:47:12 UTC; unix
+colorspace	2.1-3		/usr/local/lib/R/site-library	RSPM	standard			colorspace	2.1-3	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:34 UTC; unix
+compiler	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; ; 2026-09-11 12:41:20 UTC; unix
+conflicted	1.2.0		/usr/local/lib/R/site-library	RSPM	standard			conflicted	1.2.0	R 4.6.0; ; 2026-08-12 20:22:07 UTC; unix
+corrplot	0.95		/usr/local/lib/R/site-library	RSPM	standard			corrplot	0.95	R 4.6.0; ; 2026-08-12 20:21:29 UTC; unix
+cowplot	1.2.0		/usr/local/lib/R/site-library	RSPM	standard			cowplot	1.2.0	R 4.6.0; ; 2026-08-12 20:23:06 UTC; unix
+crayon	1.5.3		/usr/local/lib/R/site-library	RSPM	standard			crayon	1.5.3	R 4.6.0; ; 2026-08-12 20:21:29 UTC; unix
+curl	8.0.0		/usr/local/lib/R/site-library	RSPM	standard			curl	8.0.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-26 04:37:59 UTC; unix
+data.table	1.18.6.1		/usr/local/lib/R/site-library	RSPM	standard			data.table	1.18.6.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-25 04:30:51 UTC; unix
+datasets	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; ; 2026-09-11 12:42:45 UTC; unix
+DBI	1.3.0		/usr/local/lib/R/site-library	RSPM	standard			DBI	1.3.0	R 4.6.0; ; 2026-08-12 20:21:30 UTC; unix
+dbplyr	2.6.0		/usr/local/lib/R/site-library	RSPM	standard			dbplyr	2.6.0	R 4.6.0; ; 2026-08-12 20:23:54 UTC; unix
+Deriv	4.3.5		/usr/local/lib/R/site-library	RSPM	standard			Deriv	4.3.5	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-04 04:22:17 UTC; unix
+digest	0.6.39		/usr/local/lib/R/site-library	RSPM	standard			digest	0.6.39	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:50 UTC; unix
+doBy	4.7.2		/usr/local/lib/R/site-library	RSPM	standard			doBy	4.7.2	R 4.6.0; ; 2026-08-12 20:24:57 UTC; unix
+docopt	0.7.2		/usr/local/lib/R/site-library	RSPM						R 4.6.1; ; 2026-09-11 13:11:31 UTC; unix
+dplyr	1.2.1		/usr/local/lib/R/site-library	RSPM	standard			dplyr	1.2.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:54 UTC; unix
+dtplyr	1.3.3		/usr/local/lib/R/site-library	RSPM	standard			dtplyr	1.3.3	R 4.6.0; ; 2026-10-02 08:11:50 UTC; unix
+evaluate	1.0.5		/usr/local/lib/R/site-library	RSPM	standard			evaluate	1.0.5	R 4.6.0; ; 2026-08-12 20:21:35 UTC; unix
+farver	2.1.2		/usr/local/lib/R/site-library	RSPM	standard			farver	2.1.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:31 UTC; unix
+fastmap	1.2.0		/usr/local/lib/R/site-library	RSPM	standard			fastmap	1.2.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:29 UTC; unix
+fontawesome	0.5.3		/usr/local/lib/R/site-library	RSPM	standard			fontawesome	0.5.3	R 4.6.0; ; 2026-08-12 20:22:14 UTC; unix
+forcats	1.0.1		/usr/local/lib/R/site-library	RSPM	standard			forcats	1.0.1	R 4.6.0; ; 2026-08-12 20:22:52 UTC; unix
+forecast	9.0.2		/usr/local/lib/R/site-library	RSPM	standard			forecast	9.0.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-09 10:14:52 UTC; unix
+foreign	0.8-91	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:13 UTC; unix
+Formula	1.2-6		/usr/local/lib/R/site-library	RSPM	standard			Formula	1.2-6	R 4.6.0; ; 2026-08-12 20:21:30 UTC; unix
+fracdiff	1.5-4		/usr/local/lib/R/site-library	RSPM	standard			fracdiff	1.5-4	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+fs	2.1.0		/usr/local/lib/R/site-library	RSPM	standard			fs	2.1.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:37 UTC; unix
+gargle	1.6.1		/usr/local/lib/R/site-library	RSPM	standard			gargle	1.6.1	R 4.6.0; ; 2026-08-12 20:22:42 UTC; unix
+generics	0.1.4		/usr/local/lib/R/site-library	RSPM	standard			generics	0.1.4	R 4.6.0; ; 2026-08-12 20:21:31 UTC; unix
+ggplot2	4.0.3		/usr/local/lib/R/site-library	RSPM	standard			ggplot2	4.0.3	R 4.6.0; ; 2026-08-12 20:22:35 UTC; unix
+ggpubr	1.0.0		/usr/local/lib/R/site-library	RSPM	standard			ggpubr	1.0.0	R 4.6.0; ; 2026-08-12 20:29:22 UTC; unix
+ggrepel	0.9.8		/usr/local/lib/R/site-library	RSPM	standard			ggrepel	0.9.8	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:23:06 UTC; unix
+ggsci	5.2.0		/usr/local/lib/R/site-library	RSPM	standard			ggsci	5.2.0	R 4.6.0; ; 2026-08-12 20:23:07 UTC; unix
+ggsignif	0.6.4		/usr/local/lib/R/site-library	RSPM	standard			ggsignif	0.6.4	R 4.6.0; ; 2026-08-12 20:23:04 UTC; unix
+glue	1.8.1		/usr/local/lib/R/site-library	RSPM	standard			glue	1.8.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:35 UTC; unix
+googledrive	2.1.2		/usr/local/lib/R/site-library	RSPM	standard			googledrive	2.1.2	R 4.6.0; ; 2026-08-12 20:23:12 UTC; unix
+googlesheets4	1.1.2		/usr/local/lib/R/site-library	RSPM	standard			googlesheets4	1.1.2	R 4.6.0; ; 2026-08-12 20:23:44 UTC; unix
+graphics	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:42:05 UTC; unix
+grDevices	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:41:58 UTC; unix
+grid	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:42:58 UTC; unix
+gridExtra	2.3.1		/usr/local/lib/R/site-library	RSPM	standard			gridExtra	2.3.1	R 4.6.0; ; 2026-08-12 20:22:12 UTC; unix
+gtable	0.3.6		/usr/local/lib/R/site-library	RSPM	standard			gtable	0.3.6	R 4.6.0; ; 2026-08-12 20:22:02 UTC; unix
+haven	2.5.5		/usr/local/lib/R/site-library	RSPM	standard			haven	2.5.5	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:25:24 UTC; unix
+highr	0.12		/usr/local/lib/R/site-library	RSPM	standard			highr	0.12	R 4.6.0; ; 2026-08-12 20:21:52 UTC; unix
+hms	1.1.4		/usr/local/lib/R/site-library	RSPM	standard			hms	1.1.4	R 4.6.0; ; 2026-08-12 20:22:26 UTC; unix
+htmltools	0.5.9		/usr/local/lib/R/site-library	RSPM	standard			htmltools	0.5.9	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:04 UTC; unix
+httr	1.4.9		/usr/local/lib/R/site-library	RSPM	standard			httr	1.4.9	R 4.6.0; ; 2026-09-02 03:59:46 UTC; unix
+ids	1.0.1		/usr/local/lib/R/site-library	RSPM	standard			ids	1.0.1	R 4.6.0; ; 2026-08-12 20:22:12 UTC; unix
+isoband	0.3.0		/usr/local/lib/R/site-library	RSPM	standard			isoband	0.3.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:53 UTC; unix
+jquerylib	0.1.4		/usr/local/lib/R/site-library	RSPM	standard			jquerylib	0.1.4	R 4.6.0; ; 2026-08-12 20:22:16 UTC; unix
+jsonlite	2.0.0		/usr/local/lib/R/site-library	RSPM	standard			jsonlite	2.0.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:31 UTC; unix
+KernSmooth	2.23-26	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:17 UTC; unix
+knitr	1.52		/usr/local/lib/R/site-library	RSPM	standard			knitr	1.52	R 4.6.0; ; 2026-09-07 03:56:59 UTC; unix
+labeling	0.4.3		/usr/local/lib/R/site-library	RSPM	standard			labeling	0.4.3	R 4.6.0; ; 2026-08-12 20:21:30 UTC; unix
+lattice	0.22-9	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:44:00 UTC; unix
+lifecycle	1.0.5		/usr/local/lib/R/site-library	RSPM	standard			lifecycle	1.0.5	R 4.6.0; ; 2026-08-12 20:21:53 UTC; unix
+littler	0.3.23		/usr/local/lib/R/site-library	RSPM						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 13:11:29 UTC; unix
+lme4	2.0-6		/usr/local/lib/R/site-library	RSPM	standard			lme4	2.0-6	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:24:11 UTC; unix
+lmtest	0.9-40		/usr/local/lib/R/site-library	RSPM	standard			lmtest	0.9-40	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:00 UTC; unix
+lubridate	1.9.5		/usr/local/lib/R/site-library	RSPM	standard			lubridate	1.9.5	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:14 UTC; unix
+magrittr	2.0.5		/usr/local/lib/R/site-library	RSPM	standard			magrittr	2.0.5	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:29 UTC; unix
+MASS	7.3-65	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:43:55 UTC; unix
+Matrix	1.7-5	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:44:08 UTC; unix
+MatrixModels	0.5-4		/usr/local/lib/R/site-library	RSPM	standard			MatrixModels	0.5-4	R 4.6.0; ; 2026-08-12 20:23:44 UTC; unix
+memoise	2.0.1		/usr/local/lib/R/site-library	RSPM	standard			memoise	2.0.1	R 4.6.0; ; 2026-08-12 20:21:58 UTC; unix
+methods	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:42:46 UTC; unix
+mgcv	1.9-4	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:27 UTC; unix
+mime	0.13		/usr/local/lib/R/site-library	RSPM	standard			mime	0.13	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:34 UTC; unix
+minqa	1.2.8		/usr/local/lib/R/site-library	RSPM	standard			minqa	1.2.8	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:58 UTC; unix
+modelr	0.1.11		/usr/local/lib/R/site-library	RSPM	standard			modelr	0.1.11	R 4.6.0; ; 2026-10-02 08:07:59 UTC; unix
+nlme	3.1-169	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:46:27 UTC; unix
+nloptr	2.2.1		/usr/local/lib/R/site-library	RSPM	standard			nloptr	2.2.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:20 UTC; unix
+nnet	7.3-20	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:24 UTC; unix
+numDeriv	2016.8-1.1		/usr/local/lib/R/site-library	RSPM	standard			numDeriv	2016.8-1.1	R 4.6.0; ; 2026-08-12 20:21:35 UTC; unix
+openssl	2.4.2		/usr/local/lib/R/site-library	RSPM	standard			openssl	2.4.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:57 UTC; unix
+otel	0.2.0		/usr/local/lib/R/site-library	RSPM	standard			otel	0.2.0	R 4.6.0; ; 2026-08-12 20:21:45 UTC; unix
+pak	0.11.1		/usr/local/lib/R/site-library	RSPM						R 4.6.0; x86_64-pc-linux-gnu; 2026-07-23 16:10:20 UTC; unix
+parallel	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:43:08 UTC; unix
+pbkrtest	0.5.5		/usr/local/lib/R/site-library	RSPM	standard			pbkrtest	0.5.5	R 4.6.0; ; 2026-08-12 20:25:57 UTC; unix
+permute	0.9-10		/usr/local/lib/R/site-library	RSPM	standard			permute	0.9-10	R 4.6.0; ; 2026-08-12 20:21:29 UTC; unix
+pillar	1.11.1		/usr/local/lib/R/site-library	RSPM	standard			pillar	1.11.1	R 4.6.0; ; 2026-08-12 20:22:26 UTC; unix
+pkgconfig	2.0.3		/usr/local/lib/R/site-library	RSPM	standard			pkgconfig	2.0.3	R 4.6.0; ; 2026-08-12 20:21:35 UTC; unix
+polynom	1.4-1		/usr/local/lib/R/site-library	RSPM	standard			polynom	1.4-1	R 4.6.0; ; 2026-08-12 20:21:30 UTC; unix
+processx	3.9.0		/usr/local/lib/R/site-library	RSPM	standard			processx	3.9.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:47 UTC; unix
+ps	1.9.3		/usr/local/lib/R/site-library	RSPM	standard			ps	1.9.3	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:31 UTC; unix
+purrr	1.2.2		/usr/local/lib/R/site-library	RSPM	standard			purrr	1.2.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:27 UTC; unix
+quantreg	6.1		/usr/local/lib/R/site-library	RSPM	standard			quantreg	6.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:24:15 UTC; unix
+R6	2.6.1		/usr/local/lib/R/site-library	RSPM	standard			R6	2.6.1	R 4.6.0; ; 2026-08-12 20:21:31 UTC; unix
+ragg	1.5.2		/usr/local/lib/R/site-library	RSPM	standard			ragg	1.5.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:23:49 UTC; unix
+rappdirs	0.3.4		/usr/local/lib/R/site-library	RSPM	standard			rappdirs	0.3.4	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:35 UTC; unix
+rbibutils	2.4.1		/usr/local/lib/R/site-library	RSPM	standard			rbibutils	2.4.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:31 UTC; unix
+RColorBrewer	1.1-3		/usr/local/lib/R/site-library	RSPM	standard			RColorBrewer	1.1-3	R 4.6.0; ; 2026-08-12 20:21:34 UTC; unix
+Rcpp	1.1.2		/usr/local/lib/R/site-library	RSPM	standard			Rcpp	1.1.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:31 UTC; unix
+Rdpack	2.6.6		/usr/local/lib/R/site-library	RSPM	standard			Rdpack	2.6.6	R 4.6.0; ; 2026-08-12 20:21:50 UTC; unix
+readr	2.2.0		/usr/local/lib/R/site-library	RSPM	standard			readr	2.2.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-10-02 08:08:54 UTC; unix
+readxl	1.5.0.1		/usr/local/lib/R/site-library	RSPM	standard			readxl	1.5.0.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-17 04:24:49 UTC; unix
+reformulas	0.4.4		/usr/local/lib/R/site-library	RSPM	standard			reformulas	0.4.4	R 4.6.0; ; 2026-08-12 20:23:46 UTC; unix
+rematch	2.0.0		/usr/local/lib/R/site-library	RSPM	standard			rematch	2.0.0	R 4.6.0; ; 2026-08-12 20:21:34 UTC; unix
+rematch2	2.1.2		/usr/local/lib/R/site-library	RSPM	standard			rematch2	2.1.2	R 4.6.0; ; 2026-08-12 20:22:52 UTC; unix
+renv	1.3.1		/usr/local/lib/R/site-library	RSPM						R 4.6.0; ; 2026-10-07 04:34:57 UTC; unix
+reprex	2.1.1		/usr/local/lib/R/site-library	RSPM	standard			reprex	2.1.1	R 4.6.0; ; 2026-08-12 20:25:14 UTC; unix
+rlang	1.3.0		/usr/local/lib/R/site-library	RSPM	standard			rlang	1.3.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:29 UTC; unix
+rmarkdown	2.32		/usr/local/lib/R/site-library	RSPM	standard			rmarkdown	2.32	R 4.6.0; ; 2026-09-02 04:00:02 UTC; unix
+rpart	4.1.27	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:19 UTC; unix
+rstatix	1.1.0		/usr/local/lib/R/site-library	RSPM	standard			rstatix	1.1.0	R 4.6.0; ; 2026-08-12 20:28:17 UTC; unix
+rstudioapi	0.19.0		/usr/local/lib/R/site-library	RSPM	standard			rstudioapi	0.19.0	R 4.6.0; ; 2026-08-12 20:21:35 UTC; unix
+rvest	1.0.5		/usr/local/lib/R/site-library	RSPM	standard			rvest	1.0.5	R 4.6.0; ; 2026-08-12 20:23:04 UTC; unix
+S7	0.2.2		/usr/local/lib/R/site-library	RSPM	standard			S7	0.2.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:35 UTC; unix
+sass	0.4.10		/usr/local/lib/R/site-library	RSPM	standard			sass	0.4.10	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:23 UTC; unix
+scales	1.4.0		/usr/local/lib/R/site-library	RSPM	standard			scales	1.4.0	R 4.6.0; ; 2026-08-12 20:22:07 UTC; unix
+selectr	0.8-0		/usr/local/lib/R/site-library	RSPM	standard			selectr	0.8-0	R 4.6.0; ; 2026-09-28 04:40:54 UTC; unix
+SparseM	1.84-2		/usr/local/lib/R/site-library	RSPM	standard			SparseM	1.84-2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+spatial	7.3-18	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:47:25 UTC; unix
+splines	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:43:05 UTC; unix
+stats	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:42:14 UTC; unix
+stats4	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; ; 2026-09-11 12:43:06 UTC; unix
+stringi	1.8.9		/usr/local/lib/R/site-library	RSPM	standard			stringi	1.8.9	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:43 UTC; unix
+stringr	1.6.0		/usr/local/lib/R/site-library	RSPM	standard			stringr	1.6.0	R 4.6.0; ; 2026-08-12 20:22:54 UTC; unix
+survival	3.8-6	recommended	/usr/local/lib/R/library	CRAN						R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:46:39 UTC; unix
+sys	3.4.3		/usr/local/lib/R/site-library	RSPM	standard			sys	3.4.3	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:30 UTC; unix
+systemfonts	1.3.2		/usr/local/lib/R/site-library	RSPM	standard			systemfonts	1.3.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:13 UTC; unix
+tcltk	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:43:06 UTC; unix
+textshaping	1.0.5		/usr/local/lib/R/site-library	RSPM	standard			textshaping	1.0.5	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:23:09 UTC; unix
+tibble	3.3.1		/usr/local/lib/R/site-library	RSPM	standard			tibble	3.3.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:38 UTC; unix
+tidyr	1.3.2		/usr/local/lib/R/site-library	RSPM	standard			tidyr	1.3.2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:23:24 UTC; unix
+tidyselect	1.2.1		/usr/local/lib/R/site-library	RSPM	standard			tidyselect	1.2.1	R 4.6.0; ; 2026-08-12 20:22:29 UTC; unix
+tidyverse	2.0.0		/usr/local/lib/R/site-library	RSPM	standard			tidyverse	2.0.0	R 4.6.0; ; 2026-08-12 20:27:55 UTC; unix
+timechange	0.4.0		/usr/local/lib/R/site-library	RSPM	standard			timechange	0.4.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:49 UTC; unix
+timeDate	4052.112		/usr/local/lib/R/site-library	RSPM	standard			timeDate	4052.112	R 4.6.0; ; 2026-08-12 20:21:36 UTC; unix
+tinytex	0.61		/usr/local/lib/R/site-library	RSPM	standard			tinytex	0.61	R 4.6.0; ; 2026-09-18 04:03:45 UTC; unix
+tools	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:41:20 UTC; unix
+tzdb	0.5.0		/usr/local/lib/R/site-library	RSPM	standard			tzdb	0.5.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:49 UTC; unix
+urca	1.3-4		/usr/local/lib/R/site-library	RSPM	standard			urca	1.3-4	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:04 UTC; unix
+utf8	1.2.6		/usr/local/lib/R/site-library	RSPM	standard			utf8	1.2.6	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:36 UTC; unix
+utils	4.6.1	base	/usr/local/lib/R/library							R 4.6.1; x86_64-pc-linux-gnu; 2026-09-11 12:41:49 UTC; unix
+uuid	1.2-2		/usr/local/lib/R/site-library	RSPM	standard			uuid	1.2-2	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:38 UTC; unix
+vctrs	0.7.3		/usr/local/lib/R/site-library	RSPM	standard			vctrs	0.7.3	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:22:02 UTC; unix
+vegan	2.7-6		/usr/local/lib/R/site-library	RSPM	standard			vegan	2.7-6	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-01 04:13:16 UTC; unix
+viridisLite	0.4.3		/usr/local/lib/R/site-library	RSPM	standard			viridisLite	0.4.3	R 4.6.0; ; 2026-08-12 20:21:36 UTC; unix
+vroom	1.7.1		/usr/local/lib/R/site-library	RSPM	standard			vroom	1.7.1	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-26 06:36:05 UTC; unix
+withr	3.0.3		/usr/local/lib/R/site-library	RSPM	standard			withr	3.0.3	R 4.6.0; ; 2026-08-12 20:21:40 UTC; unix
+xfun	0.61		/usr/local/lib/R/site-library	RSPM	standard			xfun	0.61	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-17 04:24:25 UTC; unix
+xml2	1.6.0		/usr/local/lib/R/site-library	RSPM	standard			xml2	1.6.0	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:55 UTC; unix
+yaml	2.3.12		/usr/local/lib/R/site-library	RSPM	standard			yaml	2.3.12	R 4.6.0; x86_64-pc-linux-gnu; 2026-08-12 20:21:42 UTC; unix
+zoo	1.9-1		/usr/local/lib/R/site-library	RSPM	standard			zoo	1.9-1	R 4.6.0; x86_64-pc-linux-gnu; 2026-09-26 04:26:52 UTC; unix

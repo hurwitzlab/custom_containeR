@@ -82,6 +82,10 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
 - **Never overwrite a build.** `generate_def.sh` and `build.sh` both refuse
   if the `.sif` exists; builds go to `.sif.partial` and are renamed only on
   success; finished build dirs are `chmod -R a-w`.
+- **Builds are committed, images are not.** `.gitignore` excludes only
+  `*.sif`/`*.sif.partial`, so each `builds/<NAME>/<TAG>/` (`.def`, `inputs/`,
+  `provenance/`, ~0.5 MB) is committed after a successful build as the
+  backed-up record. Keep anything large out of build dirs, or ignore it.
 - **Provenance lives in two places:** `/opt/provenance` inside the image
   (travels with the `.sif`) and `builds/.../provenance/` (greppable without
   apptainer). `install.R` is written into the image so the exact install

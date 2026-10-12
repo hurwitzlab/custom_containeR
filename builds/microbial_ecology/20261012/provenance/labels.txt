@@ -1,0 +1,26 @@
+Base_Digest: sha256:4e6e6696ff54a86625c7f80046478e67014a2184e942b85eeff43db7b992d93e
+Base_Image: rocker/r-ver:4.6.1
+Bioc_Version: 3.23
+Generated: 2026-10-12T14:08:31Z by sdweave2
+Maintainer: sdweave2@ncsu.edu
+Name: microbial_ecology
+R_Version: 4.6.1
+Snapshot_Date: 2026-10-08
+VersionTag: 20261012
+org.label-schema.build-arch: amd64
+org.label-schema.build-date: Monday_12_October_2026_10:12:46_EDT
+org.label-schema.schema-version: 1.0
+org.label-schema.usage: /.singularity.d/runscript.help
+org.label-schema.usage.apptainer.runscript.help: /.singularity.d/runscript.help
+org.label-schema.usage.apptainer.version: 1.4.2-1.el8
+org.label-schema.usage.singularity.deffile.bootstrap: docker
+org.label-schema.usage.singularity.deffile.from: rocker/r-ver@sha256:4e6e6696ff54a86625c7f80046478e67014a2184e942b85eeff43db7b992d93e
+org.opencontainers.image.authors: Carl Boettiger <cboettig@ropensci.org>
+org.opencontainers.image.base.name: docker.io/library/ubuntu:noble
+org.opencontainers.image.description: Reproducible builds to fixed version of R
+org.opencontainers.image.licenses: GPL-2.0-or-later
+org.opencontainers.image.revision: b83668d6d6d438eaeaa8c624f65e523ab3222355
+org.opencontainers.image.source: https://github.com/rocker-org/rocker-versioned2
+org.opencontainers.image.title: rocker/r-ver
+org.opencontainers.image.vendor: Rocker Project
+org.opencontainers.image.version: R-4.6.1

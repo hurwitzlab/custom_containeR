@@ -1,0 +1,9 @@
+tidyverse
+dplyr
+readr
+ggplot2
+tidyr
+vegan
+car
+lme4
+ggpubr

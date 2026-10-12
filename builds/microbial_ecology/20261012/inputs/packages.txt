@@ -1,0 +1,22 @@
+# One package reference per line (pak syntax). '#' starts a comment.
+#
+#   dplyr                                   CRAN, version from SNAPSHOT_DATE
+#   bioc::limma                             Bioconductor, from BIOC_VERSION @ SNAPSHOT_DATE
+#   github::owner/repo@<commit-sha>         GitHub, MUST be pinned to a commit SHA
+#   pkgname=github::owner/repo@<sha>        use when the R package name != repo name
+#
+# Branch or tag names for GitHub refs are rejected because they can move.
+# Avoid CRAN version pins (dplyr@1.1.4). The snapshot date already pins
+# versions, and hand pins build from source and can conflict with deps.
+# To get a specific version, pick a date instead:
+#   ./snapshot_dates.sh dplyr@1.1.4 [more@versions ...]
+
+# Packages for this image (tidyverse is added by DEFAULT_PACKAGES in config.sh):
+dplyr
+readr
+ggplot2
+tidyr
+vegan
+car
+lme4
+ggpubr

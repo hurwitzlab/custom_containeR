@@ -1,0 +1,167 @@
+Package	Version	Source	Requested
+abind	1.4-8	CRAN	
+askpass	1.2.1	CRAN	
+backports	1.5.1	CRAN	
+base	4.6.1	R (base)	
+base64enc	0.1-6	CRAN	
+bit	4.6.0	CRAN	
+bit64	4.8.6	CRAN	
+blob	1.3.0	CRAN	
+boot	1.3-32	R (recommended)	
+broom	1.0.13	CRAN	
+bslib	0.12.0	CRAN	
+cachem	1.1.0	CRAN	
+callr	3.8.0	CRAN	
+car	3.1-5	CRAN	yes
+carData	3.0-6	CRAN	
+cellranger	1.1.0	CRAN	
+class	7.3-23	R (recommended)	
+cli	3.6.6	CRAN	
+clipr	0.8.1	CRAN	
+cluster	2.1.8.2	R (recommended)	
+codetools	0.2-20	R (recommended)	
+colorspace	2.1-3	CRAN	
+compiler	4.6.1	R (base)	
+conflicted	1.2.0	CRAN	
+corrplot	0.95	CRAN	
+cowplot	1.2.0	CRAN	
+crayon	1.5.3	CRAN	
+curl	8.0.0	CRAN	
+data.table	1.18.6.1	CRAN	
+datasets	4.6.1	R (base)	
+DBI	1.3.0	CRAN	
+dbplyr	2.6.0	CRAN	
+Deriv	4.3.5	CRAN	
+digest	0.6.39	CRAN	
+doBy	4.7.2	CRAN	
+docopt	0.7.2	CRAN	
+dplyr	1.2.1	CRAN	yes
+dtplyr	1.3.3	CRAN	
+evaluate	1.0.5	CRAN	
+farver	2.1.2	CRAN	
+fastmap	1.2.0	CRAN	
+fontawesome	0.5.3	CRAN	
+forcats	1.0.1	CRAN	
+forecast	9.0.2	CRAN	
+foreign	0.8-91	R (recommended)	
+Formula	1.2-6	CRAN	
+fracdiff	1.5-4	CRAN	
+fs	2.1.0	CRAN	
+gargle	1.6.1	CRAN	
+generics	0.1.4	CRAN	
+ggplot2	4.0.3	CRAN	yes
+ggpubr	1.0.0	CRAN	yes
+ggrepel	0.9.8	CRAN	
+ggsci	5.2.0	CRAN	
+ggsignif	0.6.4	CRAN	
+glue	1.8.1	CRAN	
+googledrive	2.1.2	CRAN	
+googlesheets4	1.1.2	CRAN	
+graphics	4.6.1	R (base)	
+grDevices	4.6.1	R (base)	
+grid	4.6.1	R (base)	
+gridExtra	2.3.1	CRAN	
+gtable	0.3.6	CRAN	
+haven	2.5.5	CRAN	
+highr	0.12	CRAN	
+hms	1.1.4	CRAN	
+htmltools	0.5.9	CRAN	
+httr	1.4.9	CRAN	
+ids	1.0.1	CRAN	
+isoband	0.3.0	CRAN	
+jquerylib	0.1.4	CRAN	
+jsonlite	2.0.0	CRAN	
+KernSmooth	2.23-26	R (recommended)	
+knitr	1.52	CRAN	
+labeling	0.4.3	CRAN	
+lattice	0.22-9	R (recommended)	
+lifecycle	1.0.5	CRAN	
+littler	0.3.23	CRAN	
+lme4	2.0-6	CRAN	yes
+lmtest	0.9-40	CRAN	
+lubridate	1.9.5	CRAN	
+magrittr	2.0.5	CRAN	
+MASS	7.3-65	R (recommended)	
+Matrix	1.7-5	R (recommended)	
+MatrixModels	0.5-4	CRAN	
+memoise	2.0.1	CRAN	
+methods	4.6.1	R (base)	
+mgcv	1.9-4	R (recommended)	
+mime	0.13	CRAN	
+minqa	1.2.8	CRAN	
+modelr	0.1.11	CRAN	
+nlme	3.1-169	R (recommended)	
+nloptr	2.2.1	CRAN	
+nnet	7.3-20	R (recommended)	
+numDeriv	2016.8-1.1	CRAN	
+openssl	2.4.2	CRAN	
+otel	0.2.0	CRAN	
+pak	0.11.1	CRAN	
+parallel	4.6.1	R (base)	
+pbkrtest	0.5.5	CRAN	
+permute	0.9-10	CRAN	
+pillar	1.11.1	CRAN	
+pkgconfig	2.0.3	CRAN	
+polynom	1.4-1	CRAN	
+processx	3.9.0	CRAN	
+ps	1.9.3	CRAN	
+purrr	1.2.2	CRAN	
+quantreg	6.1	CRAN	
+R6	2.6.1	CRAN	
+ragg	1.5.2	CRAN	
+rappdirs	0.3.4	CRAN	
+rbibutils	2.4.1	CRAN	
+RColorBrewer	1.1-3	CRAN	
+Rcpp	1.1.2	CRAN	
+Rdpack	2.6.6	CRAN	
+readr	2.2.0	CRAN	yes
+readxl	1.5.0.1	CRAN	
+reformulas	0.4.4	CRAN	
+rematch	2.0.0	CRAN	
+rematch2	2.1.2	CRAN	
+renv	1.3.1	CRAN	
+reprex	2.1.1	CRAN	
+rlang	1.3.0	CRAN	
+rmarkdown	2.32	CRAN	
+rpart	4.1.27	R (recommended)	
+rstatix	1.1.0	CRAN	
+rstudioapi	0.19.0	CRAN	
+rvest	1.0.5	CRAN	
+S7	0.2.2	CRAN	
+sass	0.4.10	CRAN	
+scales	1.4.0	CRAN	
+selectr	0.8-0	CRAN	
+SparseM	1.84-2	CRAN	
+spatial	7.3-18	R (recommended)	
+splines	4.6.1	R (base)	
+stats	4.6.1	R (base)	
+stats4	4.6.1	R (base)	
+stringi	1.8.9	CRAN	
+stringr	1.6.0	CRAN	
+survival	3.8-6	R (recommended)	
+sys	3.4.3	CRAN	
+systemfonts	1.3.2	CRAN	
+tcltk	4.6.1	R (base)	
+textshaping	1.0.5	CRAN	
+tibble	3.3.1	CRAN	
+tidyr	1.3.2	CRAN	yes
+tidyselect	1.2.1	CRAN	
+tidyverse	2.0.0	CRAN	yes
+timechange	0.4.0	CRAN	
+timeDate	4052.112	CRAN	
+tinytex	0.61	CRAN	
+tools	4.6.1	R (base)	
+tzdb	0.5.0	CRAN	
+urca	1.3-4	CRAN	
+utf8	1.2.6	CRAN	
+utils	4.6.1	R (base)	
+uuid	1.2-2	CRAN	
+vctrs	0.7.3	CRAN	
+vegan	2.7-6	CRAN	yes
+viridisLite	0.4.3	CRAN	
+vroom	1.7.1	CRAN	
+withr	3.0.3	CRAN	
+xfun	0.61	CRAN	
+xml2	1.6.0	CRAN	
+yaml	2.3.12	CRAN	
+zoo	1.9-1	CRAN	

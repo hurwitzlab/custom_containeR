@@ -1,5 +1,5 @@
-# Build outputs (.def, .sif, provenance) live on disk, not in git
-builds/
+# Images are too big for git; the rest of each build dir (.def, inputs/,
+# provenance/, a few hundred KB) is committed as the record of what was built
 **/*.sif
 **/*.sif.partial
 

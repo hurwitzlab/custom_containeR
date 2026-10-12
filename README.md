@@ -49,6 +49,7 @@ all live on scratch (`/share/brc/$USER/.apptainer/`; see `site.sh`). The per-job
 | `site.sh` | yes | site settings shared by every image: `BUILDS_DIR`, scratch paths, base image repo, `MAINTAINER` (defaults to `$USER@ncsu.edu`) |
 | `config.example.sh`, `packages.example.txt` | yes | templates; never edited directly |
 | `recipes/<NAME>/config.sh`, `packages.txt` | **no** (gitignored) | one image's recipe (what to build), made by `new_image.sh` |
+| `builds/<NAME>/<TAG>/` | yes, except the `.sif` | one build's `.def`, inputs and provenance; commit it after the build |
 
 A recipe is the editable input; `builds/<NAME>/<TAG>/` is the read-only
 output of each build, so one recipe yields a new build folder every time it
@@ -59,7 +60,7 @@ it can override any site setting (the smoke test overrides `BUILDS_DIR`).
 To change an image later, edit its folder and regenerate with a new
 `VERSION_TAG` (or on a new day). Nothing is lost by not tracking `recipes/`:
 each build keeps a read-only copy of `site.sh`, the config and the package
-list in `builds/<NAME>/<TAG>/inputs/`.
+list in `builds/<NAME>/<TAG>/inputs/`, and that folder is committed.
 
 ## packages.txt syntax
 
@@ -166,6 +167,14 @@ builds/<NAME>/<VERSION_TAG>/
 
 After a successful build the directory is made read-only (`chmod -R a-w`).
 To delete a build on purpose: `chmod -R u+w builds/<NAME>/<TAG> && rm -r ...`.
+
+Everything in the build directory except the `.sif` is tracked in git, so
+commit it once the build succeeds; it is the backed-up record of what was
+built even if the image is lost:
+
+```bash
+git add builds/<NAME>/<TAG> && git commit -m "Build <NAME> <TAG>"
+```
 
 `VERSION_TAG` defaults to today's date. Set it explicitly in the image's `config.sh` to
 build a second image with the same name on the same day.
