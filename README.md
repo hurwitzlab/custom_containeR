@@ -259,7 +259,7 @@ Shared by all BRC module trees, in `/usr/local/usrapps/brc/env/`:
 | File | Sourced by modulefiles for |
 |---|---|
 | `modules.config` | bind paths (`/rs1`, `/share`, `/gpfs_common`, `/rsstu`) |
-| `module_log.tcl` | load logging to `brc_modules/logs/module_loads.log`, as `timestamp\|user\|group\|tool\|version\|tree`, where tree is `brc_modules` or `developer_tools` |
+| `module_log.tcl` | load logging to `/usr/local/usrapps/brc/logs/module_loads.log`, as `timestamp\|user\|group\|tool\|version\|tree`, where tree is `brc_modules` or `developer_tools` |
 
 Change bind paths or logging there, once, for every module.
 
