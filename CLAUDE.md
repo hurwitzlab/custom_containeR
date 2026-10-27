@@ -70,6 +70,8 @@ stdout (the summary goes to stderr; keep it that way), prompts unless
   warnings; harmless.
 - container-mod's repo is TuftsRT's (no fork), so `profiles/developer_tools`
   is tracked here; `deploy.sh` installs it and refuses if the copies differ.
+  `../containerPy` (Python images, same developer_tools tree) tracks an
+  identical copy; change both together.
 
 ## Design rules (don't regress these)
 
