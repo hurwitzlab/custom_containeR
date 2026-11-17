@@ -182,3 +182,18 @@ sbatch build.sh /share/brc/$USER/custom_containeR_tests/builds/smoke_test/<TAG>
 Then check `provenance/renv.lock` (limma `RemoteRepos` = PPM snapshot,
 rematch2 `RemoteSha` = the pinned SHA) and the host-env isolation check from
 lesson 2. To rebuild the same tag: `chmod -R u+w <dir> && rm -r <dir>` first.
+
+## Publishing (push.sh)
+
+`push.sh builds/<NAME>/<TAG>` pushes the `.sif` to
+`oras://ghcr.io/$GHCR_NAMESPACE/$GHCR_PREFIX<name lowercased>:<TAG>` (`site.sh`:
+custom_containeR uses `r-` and containerPy uses `py-`, so neither collides with
+`../custom_container_module`'s tool images in the same namespace). Rules:
+it only reads the build dir; it verifies `sif.sha256` first; it refuses an
+existing tag, or one it can't check, unless `--force_ghcr_overwrite` is
+passed; it reads the stored `apptainer registry login` credential from
+`~/.docker/config.json` and passes it to curl on stdin, never as an argument;
+it confirms the tag is on the registry after pushing. GHCR package
+visibility can't be set by API (PATCH returns 404, verified 2026-11-17),
+so new packages stay private until someone makes them public on GitHub.
+The file is byte-identical in both repos; change both together.

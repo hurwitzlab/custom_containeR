@@ -263,6 +263,32 @@ Shared by all BRC module trees, in `/usr/local/usrapps/brc/env/`:
 
 Change bind paths or logging there, once, for every module.
 
+## Publishing to ghcr.io (push.sh)
+
+```bash
+./push.sh builds/microbial_ecology/20261012
+# -> oras://ghcr.io/<GHCR_NAMESPACE>/r-microbial_ecology:20261012
+```
+
+`push.sh` is a separate step from `deploy.sh`. It reads the build directory
+without changing it, checks `provenance/sif.sha256`, and uploads the `.sif` as an
+ORAS artifact to `ghcr.io/<GHCR_NAMESPACE>/<GHCR_PREFIX><name lowercased>:<VERSION_TAG>`
+(both set in `site.sh`; the `r-` prefix keeps these images from colliding with
+tool images in the same namespace). It then confirms the tag is on the registry
+and appends a line to `logs/push.log`.
+
+- Log in once first: `apptainer registry login --username <github user> oras://ghcr.io`
+  (a token with `write:packages`). `push.sh` reads that stored login and never
+  takes a token on the command line.
+- Published tags are never replaced. If the tag exists, or `push.sh` can't check,
+  it refuses. `--force_ghcr_overwrite` replaces an existing tag on purpose.
+- New packages are **private**. Make each one public once, in its settings page
+  on GitHub (this can't be done through the API). Later tags of the same package
+  stay public.
+- Users pull with `apptainer pull microbial_ecology_20261012.sif oras://ghcr.io/<GHCR_NAMESPACE>/r-microbial_ecology:20261012`.
+
+`push.sh` is byte-identical in custom_containeR and containerPy; change both together.
+
 ## Recreating the library outside the container
 
 ```r
@@ -293,6 +319,7 @@ renv::restore(lockfile = "builds/<NAME>/<TAG>/provenance/renv.lock")
 | `build.sh` | sbatch script (xfer partition): build, export provenance, freeze |
 | `snapshot_dates.sh` | find `SNAPSHOT_DATE`s when given CRAN `pkg@version`s were current |
 | `deploy.sh` | publish a build as a `developer_tools` module via container-mod |
+| `push.sh` | publish a build's `.sif` to ghcr.io (ORAS); never replaces a tag |
 | `profiles/developer_tools` | container-mod profile (tracked copy) |
 | `run.sh` | pipeline wrapper: `generate_def.sh`, review prompt, `sbatch build.sh`, optional wait |
 | `tests/smoke/` | config + packages exercising CRAN, Bioc and GitHub refs |
